@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import vnua.khoaluan.User;
 import vnua.khoaluan.common.Constant;
+import vnua.khoaluan.entities.User;
+import vnua.khoaluan.service.IUserService;
 import vnua.khoaluan.service.UserService;
 
 @Controller
@@ -68,8 +69,11 @@ public class UserController {
 //		return "redirect:list";
 //	}
 
+	@Autowired
+	IUserService iUserService;
 	@RequestMapping(value = {"/login"}, method = RequestMethod.GET)
 	public String login() {
+		User user = this.iUserService.findByEmail("linhtran180895@gmail.com");
 		return Constant.TEMPLATE_VIEW.LOGIN;
 	}
 

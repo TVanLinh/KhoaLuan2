@@ -15,8 +15,8 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
-@Service("userService")
-@Transactional
+//@Service("userService")
+//@Transactional
 public class UserService {
 
 	static String db_name = "mydb", db_collection = "mycollection";

@@ -30,5 +30,7 @@ public class Constant {
         public static final String ADMIN_ADD_PRODUCT = "admin/addProduct";
         public static final String ADMIN_UPDATE_PRODUCT = "admin/editProduct";
         public static final String ADMIN_CATALOG = "admin/catalog";
+        public static final String ACCESS_DENIED = "acessdenied";
+
     }
 }

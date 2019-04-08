@@ -6,13 +6,13 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="well"><h2>Thông tin đăng nhập</h2>
-                <form action="http://ggffg.myzozo.net/account/login" method="post" enctype="multipart/form-data">
+                <form name="f" action="${pageContext.request.contextPath}/j_spring_security_check" method="POST">
                     <div class="form-group"><label class="control-label" for="input-email">Địa chỉ Email</label> <input
-                            type="text" name="email" value="" placeholder="Địa chỉ Email" id="input-email"
+                            type="text" name="username" value="" placeholder="Địa chỉ Email" id="input-email"
                             class="form-control"></div>
                     <div class="form-group"><label class="control-label" for="input-password">Mật khẩu</label> <input
                             type="password" name="password" value="" placeholder="Mật khẩu" id="input-password"
-                            class="form-control"> <a href="http://ggffg.myzozo.net/account/forgotten">Quên mật khẩu?</a>
+                            class="form-control"> <a href="">Quên mật khẩu?</a>
                     </div>
                     <input type="submit" value="Đăng nhập" class="btn btn-primary"></form>
             </div>

@@ -23,7 +23,7 @@ public class MongoFactory {
 		String hostname = "localhost";		
 		if (mongo == null) {
 			try {
-				mongo = new MongoClient(hostname, port_no);																		
+//				mongo = new MongoClient(hostname, port_no);
 			} catch (MongoException ex) {
 				log.error(ex);
 			}
