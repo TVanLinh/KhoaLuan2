@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import vnua.khoaluan.common.Constant;
 
 @Controller
-public class ProductController {
+public class ProductController  extends  BaseController{
     @RequestMapping(value = {"/product"}, method = RequestMethod.GET)
     public String product() {
         return Constant.TEMPLATE_VIEW.PRODUCT;

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import vnua.khoaluan.common.Constant;
 
 @Controller
-public class InformationController {
+public class InformationController  extends  BaseController{
     @RequestMapping(value = {"/information"}, method = RequestMethod.GET)
     public String information() {
         return Constant.TEMPLATE_VIEW.INFOMATION;

@@ -19,7 +19,7 @@ import vnua.khoaluan.service.UserService;
 
 @Controller
 //@RequestMapping("/user")
-public class UserController {
+public class UserController  extends  BaseController{
 
 //	private static Logger log = Logger.getLogger(UserController.class);
 //

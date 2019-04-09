@@ -377,35 +377,43 @@
                 <div class="row">
                     <div class="col-sm-6 col-md-6 a-left">
                         <ul class="list-inline f-left info-header">
-                            <li><i class="fa fa-mobile"></i> <b>Điện thoại:</b> <span> <a href="tell:0123456789"> 0123456789</a> </span>
-                            </li>
-                            <li class="margin-left-20"><i class="fa fa-envelope"></i> <b>Email:</b> <span> <a
-                                    href="mailto:abc@gmail.com">abc@gmail.com</a> </span></li>
+                            <c:if test="${requestScope.user != null}">
+                                <li><i class="fa fa-mobile"></i> <b>Điện thoại:</b> <span> <a href="tell:0123456789"> ${user.phone}</a> </span>
+                                </li>
+                                <li class="margin-left-20"><i class="fa fa-envelope"></i> <b>Email:</b> <span> <a
+                                        href="mailto:abc@gmail.com">${user.email}</a> </span></li>
+                            </c:if>
+
                         </ul>
                     </div>
                     <div class="col-sm-6 col-md-6">
                         <ul class="list-inline f-right">
-                            <li><a href="${pageContext.request.contextPath}/login"><i class="fa fa-user"></i> Đăng nhập</a>
-                            </li>
-                            <li><span> -</span></li>
-                            <li><a href="${pageContext.request.contextPath}/register">Đăng ký</a></li>
-                            <li class="li-search hidden"><a href="javascript:void(0)"><i class="fa fa-search"></i></a>
-                                <div class="dropdown topbar-dropdown hidden-md hidden-sm hidden-xs">
-                                    <div class="content a-center">
-                                        <div class="header_search search_form">
-                                            <div class="form input-group search-bar search_form"><input type="search"
-                                                                                                        name="search"
-                                                                                                        value=""
-                                                                                                        placeholder="Tìm kiếm"
-                                                                                                        class="input-group-field st-default-search-input search-text"
-                                                                                                        autocomplete="off">
-                                                <span class="input-group-btn"> <button
-                                                        class="btn icon-fallback-text"> <i
-                                                        class="fa fa-search"></i> </button> </span></div>
+                            <c:if test="${user == null}">
+                                <li><a href="${pageContext.request.contextPath}/login"><i class="fa fa-user"></i> Đăng nhập</a>
+                                </li>
+                                <li><span> -</span></li>
+                                <li><a href="${pageContext.request.contextPath}/register">Đăng ký</a></li>
+                                <li class="li-search hidden"><a href="javascript:void(0)"><i class="fa fa-search"></i></a>
+                                    <div class="dropdown topbar-dropdown hidden-md hidden-sm hidden-xs">
+                                        <div class="content a-center">
+                                            <div class="header_search search_form">
+                                                <div class="form input-group search-bar search_form"><input type="search"
+                                                                                                            name="search"
+                                                                                                            value=""
+                                                                                                            placeholder="Tìm kiếm"
+                                                                                                            class="input-group-field st-default-search-input search-text"
+                                                                                                            autocomplete="off">
+                                                    <span class="input-group-btn"> <button
+                                                            class="btn icon-fallback-text"> <i
+                                                            class="fa fa-search"></i> </button> </span></div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
+                                </li>
+                            </c:if>
+                            <c:if test="${user != null}">
+                                <li><a href="${pageContext.request.contextPath}/logout"><i class="fa fa-sign-out"></i> Đăng xuất</a></li>
+                            </c:if>
                         </ul>
                     </div>
                 </div>

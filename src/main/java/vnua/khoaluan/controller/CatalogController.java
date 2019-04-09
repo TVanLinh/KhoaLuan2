@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import vnua.khoaluan.common.Constant;
 
 @Controller
-public class CatalogController {
+public class CatalogController extends BaseController {
     @RequestMapping(value = {"/admin/catalog"}, method = RequestMethod.GET)
     public String adProduct() {
         return Constant.TEMPLATE_VIEW.ADMIN_CATALOG;
