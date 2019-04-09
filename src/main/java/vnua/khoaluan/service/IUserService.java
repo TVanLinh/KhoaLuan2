@@ -1,11 +1,11 @@
 package vnua.khoaluan.service;
 
+import vnua.khoaluan.bean.Result;
 import vnua.khoaluan.entities.User;
-
-import java.util.List;
+import vnua.khoaluan.form.UserForm;
 
 public interface IUserService {
     User findByEmail (String email);
 
-    List<String> registerUser(User user);
+    Result registerUser(UserForm user);
 }

@@ -1,25 +1,27 @@
 package vnua.khoaluan.controller;
 
-import java.util.List;
-
-
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
+import vnua.khoaluan.bean.Result;
 import vnua.khoaluan.common.Constant;
 import vnua.khoaluan.entities.User;
+import vnua.khoaluan.form.UserForm;
 import vnua.khoaluan.service.IUserService;
-import vnua.khoaluan.service.UserService;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 //@RequestMapping("/user")
-public class UserController  extends  BaseController{
+public class UserController extends BaseController {
 
 //	private static Logger log = Logger.getLogger(UserController.class);
 //
@@ -69,38 +71,61 @@ public class UserController  extends  BaseController{
 //		return "redirect:list";
 //	}
 
-	@Autowired
-	IUserService iUserService;
-	@RequestMapping(value = {"/login"}, method = RequestMethod.GET)
-	public String login() {
-		User user = this.iUserService.findByEmail("linhtran180895@gmail.com");
-		return Constant.TEMPLATE_VIEW.LOGIN;
-	}
+    @Autowired
+    IUserService iUserService;
 
-	@RequestMapping(value = {"/register"}, method = RequestMethod.GET)
-	public String register() {
-		return Constant.TEMPLATE_VIEW.REGISTER;
-	}
+    @Autowired
+    protected AuthenticationManager authenticationManager;
 
-	@RequestMapping(value = {"/loginsuccess"}, method = RequestMethod.GET)
-	public String loginSuccess() {
-		if(isAdmin()) {
-			return "redirect:/admin/product";
-		}
-		return "redirect:/";
-	}
+    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
+    public String login() {
+        return Constant.TEMPLATE_VIEW.LOGIN;
+    }
 
-	@ModelAttribute("userForm")
-	User initUserForm() {
-		return new User();
-	}
-	@RequestMapping(value = {"/register"}, method = RequestMethod.POST)
-	public String registerProcess(@ModelAttribute User user) {
-		try{
+    @RequestMapping(value = {"/register"}, method = RequestMethod.GET)
+    public String register() {
+        return Constant.TEMPLATE_VIEW.REGISTER;
+    }
 
-		}catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
-		}
-		return Constant.TEMPLATE_VIEW.REGISTER;
-	}
+    @RequestMapping(value = {"/loginsuccess"}, method = RequestMethod.GET)
+    public String loginSuccess() {
+        if (isAdmin()) {
+            return "redirect:/admin/product";
+        }
+        return "redirect:/";
+    }
+
+    @ModelAttribute("userForm")
+    public UserForm initUserForm() {
+        return new UserForm();
+    }
+
+    @RequestMapping(value = {"/register"}, method = RequestMethod.POST)
+    public String registerProcess(@ModelAttribute UserForm userForm, Model model, HttpServletRequest request) {
+        try {
+            Result result = this.iUserService.registerUser(userForm);
+            if (result.getStatus() == Constant.STATUS.OK) {
+               // authenticateUserAndSetSession(userForm, request);
+                return "redirect:/";
+            }
+            model.addAttribute("result", result);
+        } catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+        }
+        return Constant.TEMPLATE_VIEW.REGISTER;
+    }
+
+    private void authenticateUserAndSetSession(User user, HttpServletRequest request) {
+        String username = user.getEmail();
+        String password = user.getPassWord();
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
+
+        // generate session if one doesn't exist
+        request.getSession();
+
+        token.setDetails(new WebAuthenticationDetails(request));
+        Authentication authenticatedUser = authenticationManager.authenticate(token);
+
+        SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
+    }
 }

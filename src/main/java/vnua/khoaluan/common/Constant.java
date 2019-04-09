@@ -38,4 +38,9 @@ public class Constant {
         public static final String ADMIN = "ADMIN";
         public static final String USER = "USER";
     }
+
+    public  static  class STATUS {
+        public  static  final  int OK = 1;
+        public  static final  int ERROR = 0;
+    }
 }

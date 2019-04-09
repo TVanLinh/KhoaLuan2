@@ -10,6 +10,7 @@ public class User {
     @Id
     private String id;
     private String name;
+    private String fullName;
     private String email;
     private  String phone;
     private String address;
@@ -70,5 +71,13 @@ public class User {
 
     public void setPassWord(String passWord) {
         this.passWord = passWord;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 }
