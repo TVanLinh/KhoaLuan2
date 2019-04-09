@@ -81,4 +81,26 @@ public class UserController  extends  BaseController{
 	public String register() {
 		return Constant.TEMPLATE_VIEW.REGISTER;
 	}
+
+	@RequestMapping(value = {"/loginsuccess"}, method = RequestMethod.GET)
+	public String loginSuccess() {
+		if(isAdmin()) {
+			return "redirect:/admin/product";
+		}
+		return "redirect:/";
+	}
+
+	@ModelAttribute("userForm")
+	User initUserForm() {
+		return new User();
+	}
+	@RequestMapping(value = {"/register"}, method = RequestMethod.POST)
+	public String registerProcess(@ModelAttribute User user) {
+		try{
+
+		}catch (Exception ex) {
+			logger.error(ex.getMessage(), ex);
+		}
+		return Constant.TEMPLATE_VIEW.REGISTER;
+	}
 }

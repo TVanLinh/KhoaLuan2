@@ -33,4 +33,9 @@ public class Constant {
         public static final String ACCESS_DENIED = "acessdenied";
 
     }
+
+    public static class ROLE {
+        public static final String ADMIN = "ADMIN";
+        public static final String USER = "USER";
+    }
 }

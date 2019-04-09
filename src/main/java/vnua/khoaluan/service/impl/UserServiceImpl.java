@@ -41,6 +41,10 @@ public class UserServiceImpl implements IUserService {
         return  null;
     }
 
+    public List<String> registerUser(User user) {
+        return null;
+    }
+
 //    public static void main(String[] args) {
 //        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 //        System.out.println( passwordEncoder.encode("123456789"));;
