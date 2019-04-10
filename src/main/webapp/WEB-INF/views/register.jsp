@@ -40,7 +40,7 @@
                         </div>
 
                         <c:if test="${result.mesStringByKey['emailError'] != null}">
-                            <div class="form-group required"><label class="col-sm-2 control-label control-label-rq"></label></div>
+                            <div class="form-group required"><label class="col-sm-2 control-label"></label></div>
                             <div class="col-sm-10">
                                 <p class="error">
                                         ${result.mesStringByKey['emailError']}
