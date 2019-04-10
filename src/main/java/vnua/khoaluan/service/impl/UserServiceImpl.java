@@ -72,7 +72,7 @@ public class UserServiceImpl implements IUserService {
             //Valid phone
             if(StringUtil.isEmptyWithTrim(user.getPhone())) {
                 result.getMesStringByKey().put("phoneError", getMessage(Constant.MSG_CODE.MSG_005));
-            }else if(Utils.isValidPhoneNumber(user.getPhone())) {
+            }else if(!Utils.isValidPhoneNumber(user.getPhone())) {
                 result.getMesStringByKey().put("phoneError", getMessage(Constant.MSG_CODE.MSG_006));
             }
 
