@@ -13,66 +13,113 @@
             <form:form modelAttribute="userForm" action="${pageContext.request.contextPath}/register">
                 <fieldset id="account">
                     <legend>Chi tiết tài khoản</legend>
-                    <div class="form-group required" style="display: none;"><label class="col-sm-2 control-label">Nhóm
-                        Khách
-                        hàng</label>
-                        <div class="col-sm-10">
-                            <div class="radio"><label><input type="radio" name="customer_group_id" value="1"
-                                                              checked="checked"> Mặc định</label></div>
-                        </div>
-                    </div>
-                    <div class="form-group required"><label class="col-sm-2 control-label" for="input-firstname">Họ
+                    <div class="form-group required"><label class="col-sm-2 control-label " for="input-firstname">Họ
                         &amp;
-                        Tên đệm</label>
+                        Tên đệm <span class="control-label-rq"></span></label>
                         <div class="col-sm-10">
-                        <form:input path="fullName" type="text" name="fullName" value=""
-                                                      placeholder="Họ &amp; Tên đệm"
-                                                      id="input-firstname" class="form-control"/></div>
+                            <form:input path="fullName" type="text" name="fullName" value=""
+                                        placeholder="Họ Và Tên đệm"
+                                        id="input-firstname" class="form-control"/></div>
                     </div>
-                    <div class="form-group required">
-                        <label class="col-sm-2 control-label"
-                                                            for="input-lastname">Tên</label>
+
+                    <c:if test="${result.mesStringByKey['fullNameError'] != null}">
+                        <div class="form-group required"><label class="col-sm-2 control-label"></label></div>
+                        <div class="form-group required">
                         <div class="col-sm-10">
-                            <form:input type="text" path="name" name="lastname" value="" placeholder="Tên"
-                                                      id="input-lastname" class="form-control"/></div>
-                    </div>
-                    <div class="form-group required"><label class="col-sm-2 control-label"
-                                                            for="input-email">Email</label>
-                        <div class="col-sm-10">
-                            <form:input type="email" path="email"  name="email" value="" placeholder="Email"
-                                                      id="input-email" class="form-control"/></div>
-                    </div>
-                    <div class="form-group required"><label class="col-sm-2 control-label" for="input-telephone">Điện
-                        thoại</label>
-                        <div class="col-sm-10">
-                            <form:input path="phone" type="tel" name="telephone" value="" placeholder="Điện thoại"
-                                                      id="input-telephone" class="form-control"/></div>
-                    </div>
-                    <div class="form-group required"><label class="col-sm-2 control-label" for="input-address-1">Địa
-                        chỉ</label>
-                        <div class="col-sm-10">
-                            <form:input path="address" type="text" name="address_1" value="" placeholder="Địa chỉ"
-                                                      id="input-address-1" class="form-control"/></div>
-                    </div>
+                            <p class="error">
+                                    ${result.mesStringByKey['fullNameError']}
+                            </p>
+                        </div>
+                        </c:if>
+
+                        <div class="form-group required"><label class="col-sm-2 control-label "
+                                                                for="input-email">Email <span class="control-label-rq"></span></label>
+                            <div class="col-sm-10">
+                                <form:input type="email" path="email" name="email" value="" placeholder="Email"
+                                            id="input-email" class="form-control"/></div>
+                        </div>
+
+                        <c:if test="${result.mesStringByKey['emailError'] != null}">
+                            <div class="form-group required"><label class="col-sm-2 control-label control-label-rq"></label></div>
+                            <div class="col-sm-10">
+                                <p class="error">
+                                        ${result.mesStringByKey['emailError']}
+                                </p>
+                            </div>
+                        </c:if>
+
+                            <div class="form-group required"><label class="col-sm-2 control-label"
+                                                                    for="input-telephone">Điện
+                                thoại <span class="control-label-rq"></span></label>
+                                <div class="col-sm-10">
+                                    <form:input path="phone" type="tel" name="telephone" value=""
+                                                placeholder="Điện thoại"
+                                                id="input-telephone" class="form-control"/></div>
+                            </div>
+
+                            <c:if test="${result.mesStringByKey['phoneError'] != null}">
+                                <div class="form-group required"><label class="col-sm-2 control-label"></label></div>
+                                <div class="col-sm-10">
+                                    <p class="error">
+                                            ${result.mesStringByKey['phoneError']}
+                                    </p>
+                                </div>
+                            </c:if>
+
+                            <div class="form-group required"><label class="col-sm-2 control-label "
+                                                                    for="input-address-1">Địa
+                                chỉ <span class="control-label-rq"></span></label>
+                                <div class="col-sm-10">
+                                    <form:input path="address" type="text" name="address_1" value=""
+                                                placeholder="Địa chỉ"
+                                                id="input-address-1" class="form-control"/></div>
+                            </div>
+
+                            <c:if test="${result.mesStringByKey['addressError'] != null}">
+                                <div class="form-group required"><label class="col-sm-2 control-label"></label></div>
+                                    <div class="col-sm-10">
+                                        <p class="error">
+                                                ${result.mesStringByKey['addressError']}
+                                        </p>
+                                     </div>
+                            </c:if>
                 </fieldset>
                 <%--Dia chi--%>
                 <%-- Mat khau--%>
                 <fieldset style="margin-bottom: 15px;">
                     <legend>Mật khẩu</legend>
                     <div class="form-group required"><label class="col-sm-2 control-label" for="input-password">Mật
-                        khẩu</label>
+                        khẩu <span class="control-label-rq"></span></label>
                         <div class="col-sm-10">
                             <form:input path="passWord" type="password" name="password" value="" placeholder="Mật khẩu"
-                                                      id="input-password" class="form-control"/></div>
+                                        id="input-password" class="form-control"/> </div>
                     </div>
+
+                    <c:if test="${result.mesStringByKey['passWordError'] != null}">
+                        <div class="form-group required"><label class="col-sm-2 control-label"></label></div>
+                        <div class="col-sm-10">
+                            <p class="error">
+                                    ${result.mesStringByKey['passWordError']}
+                            </p>
+                         </div>
+                    </c:if>
+
                     <div class="form-group required"><label class="col-sm-2 control-label" for="input-confirm">Mật khẩu
                         xác
-                        nhận</label>
+                        nhận <span class="control-label-rq"></span></label>
                         <div class="col-sm-10">
                             <form:input path="rePassWord" type="password" name="confirm" value=""
-                                                      placeholder="Mật khẩu xác nhận" id="input-confirm"
-                                                      class="form-control"/></div>
+                                        placeholder="Mật khẩu xác nhận" id="input-confirm"
+                                        class="form-control"/></div>
                     </div>
+                    <c:if test="${result.mesStringByKey['rePassWordError'] != null}">
+                        <div class="form-group required"><label class="col-sm-2 control-label"></label></div>
+                        <div class="col-sm-10">
+                            <p class="error">
+                                ${result.mesStringByKey['rePassWordError']}
+                            </p>
+                        </div>
+                    </c:if>
                 </fieldset>
                 <%----%>
                 <div class="buttons">

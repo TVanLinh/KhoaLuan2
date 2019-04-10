@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import vnua.khoaluan.common.Constant;
 import vnua.khoaluan.entities.User;
 import vnua.khoaluan.service.IUserService;
+import vnua.khoaluan.service.MongoUserDetailsService;
 
 @Controller
 public class BaseController {
@@ -16,6 +17,9 @@ public class BaseController {
 
     @Autowired
     IUserService iUserService;
+
+    @Autowired
+    protected vnua.khoaluan.service.MongoUserDetailsService mongoUserDetailsService;
 
     @ModelAttribute("user")
     public User userCurrent() {

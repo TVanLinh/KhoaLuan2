@@ -22,6 +22,8 @@
           href="<c:url value='/resources/css/stylesheet.css'/>" >
     <link rel="stylesheet" type="text/css"
           href="<c:url value='/resources/vendor/fontawesome-5.8.1-web/css/fontawesome.min.css'/>" >
+    <link rel="stylesheet" type="text/css"
+          href="<c:url value='/resources/css/mycss.css'/>" >
 
     <style type="text/css">.fb_hidden {
         position: absolute;

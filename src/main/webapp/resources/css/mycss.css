@@ -1,0 +1,12 @@
+.error {
+    color: rgba(213, 0, 13, 0.91);
+}
+.control-label-rq {
+    display: inline-block;
+}
+.control-label-rq::after{
+    color: rgba(213, 0, 13, 0.91) !important;
+    content: "*" !important;
+    font-size: 15px !important;
+    display: inline-block !important;
+}

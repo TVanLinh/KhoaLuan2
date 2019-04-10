@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import vnua.khoaluan.common.Constant;
 import vnua.khoaluan.entities.User;
 
 import java.util.ArrayList;
@@ -55,6 +56,11 @@ public class MongoUserDetailsService implements UserDetailsService {
 
     private List<GrantedAuthority> getAuthorities(List<String> roles) {
         List<GrantedAuthority> authList = new ArrayList<GrantedAuthority>();
+        if(roles == null) {
+            authList.add(new SimpleGrantedAuthority("ROLE_".concat(Constant.ROLE.USER)));
+            return authList;
+        }
+
         for (String role : roles) {
             if (role != null) {
                 authList.add(new SimpleGrantedAuthority("ROLE_".concat(role.toUpperCase())));

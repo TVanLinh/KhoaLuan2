@@ -1,11 +1,11 @@
 package vnua.khoaluan.bean;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Result {
     private int status;
     private List<String> messgaes;
+    private Map<String, String> mesStringByKey  = new HashMap<String, String>();
 
     public int getStatus() {
         return status;
@@ -24,5 +24,13 @@ public class Result {
 
     public void setMessgaes(List<String> messgaes) {
         this.messgaes = messgaes;
+    }
+
+    public Map<String, String> getMesStringByKey() {
+        return mesStringByKey;
+    }
+
+    public void setMesStringByKey(Map<String, String> mesStringByKey) {
+        this.mesStringByKey = mesStringByKey;
     }
 }

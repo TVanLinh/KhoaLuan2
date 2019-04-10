@@ -43,4 +43,19 @@ public class Constant {
         public  static  final  int OK = 1;
         public  static final  int ERROR = 0;
     }
+
+    public  static  class MSG_CODE {
+        public static final String MSG_001 = "MSG_001";
+        public static final String MSG_002 = "MSG_002";
+        public static final String MSG_003 = "MSG_003";
+        public static final String MSG_004 = "MSG_004";
+        public static final String MSG_005 = "MSG_005";
+        public static final String MSG_006 = "MSG_006";
+        public static final String MSG_007 = "MSG_007";
+        public static final String MSG_008 = "MSG_008";
+        public static final String MSG_009 = "MSG_009";
+        public static final String MSG_010 = "MSG_010";
+
+    }
+
 }

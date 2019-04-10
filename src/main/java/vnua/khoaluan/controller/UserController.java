@@ -5,6 +5,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -105,7 +106,7 @@ public class UserController extends BaseController {
         try {
             Result result = this.iUserService.registerUser(userForm);
             if (result.getStatus() == Constant.STATUS.OK) {
-               // authenticateUserAndSetSession(userForm, request);
+                authenticateUser(userForm);
                 return "redirect:/";
             }
             model.addAttribute("result", result);
@@ -115,17 +116,9 @@ public class UserController extends BaseController {
         return Constant.TEMPLATE_VIEW.REGISTER;
     }
 
-    private void authenticateUserAndSetSession(User user, HttpServletRequest request) {
-        String username = user.getEmail();
-        String password = user.getPassWord();
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
-
-        // generate session if one doesn't exist
-        request.getSession();
-
-        token.setDetails(new WebAuthenticationDetails(request));
-        Authentication authenticatedUser = authenticationManager.authenticate(token);
-
-        SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
+    private void authenticateUser(User user) {
+        UserDetails userDetails = mongoUserDetailsService.loadUserByUsername(user.getEmail());
+        Authentication a = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(a);
     }
 }
