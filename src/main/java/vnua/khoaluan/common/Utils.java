@@ -31,11 +31,11 @@ public class Utils {
     }
 
     public  static boolean isValidPhoneNumber(String phoneNumber) {
-        Pattern pattern = Pattern.compile("\\d{10}");
-        Pattern pattern2 = Pattern.compile("\\d{11}");
+        Pattern pattern = Pattern.compile("0\\d{9}$");
+        Pattern pattern2 = Pattern.compile("0\\d{10}$");
 
         Matcher matcher1 = pattern.matcher(phoneNumber);
-        Matcher matcher2= pattern.matcher(phoneNumber);
+        Matcher matcher2= pattern2.matcher(phoneNumber);
         if (matcher1.matches()) {
             return true;
         }
@@ -44,5 +44,4 @@ public class Utils {
         }
         return false;
     }
-
 }
