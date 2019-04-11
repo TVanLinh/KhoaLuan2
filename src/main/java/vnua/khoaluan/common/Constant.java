@@ -1,5 +1,7 @@
 package vnua.khoaluan.common;
 
+import java.io.File;
+
 public class Constant {
     public static class TEMPLATE_VIEW {
         // Trang chu
@@ -57,5 +59,7 @@ public class Constant {
         public static final String MSG_010 = "MSG_010";
 
     }
+
+    public static final String ROOT_IMAGE_URL = "D:\\KhoaLuan\\images\\" ;
 
 }

@@ -1,5 +1,9 @@
 package vnua.khoaluan.common;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,5 +47,20 @@ public class Utils {
             return true;
         }
         return false;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(isValidPhoneNumber("01211134567850"));
+    }
+
+    public static File multipartToFile(MultipartFile multipart, String path) throws IllegalStateException, IOException
+    {
+        File director = new File(path);
+        if(!director.exists()) {
+            director.mkdirs();
+        }
+        File convFile = new File( path + "//" + multipart.getOriginalFilename());
+        multipart.transferTo(convFile);
+        return convFile;
     }
 }

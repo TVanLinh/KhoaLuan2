@@ -41,15 +41,15 @@
     <bean id="messageSource"
           class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basename" value="messages" />
-        <property name="defaultEncoding" value="UTF-8" />
+        <property name="defaultEncoding"  value="UTF-8" />
     </bean>
 
 
-    <!--<bean id="multipartResolver"-->
-          <!--class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
-        <!--&lt;!&ndash; Maximum file size: 50MB &ndash;&gt;-->
-        <!--<property name="maxUploadSize" value="52428800"/>-->
-    <!--</bean>-->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- Maximum file size: 50MB -->
+        <property name="maxUploadSize" value="52428800"/>
+    </bean>
 
     <mvc:resources mapping="/resources/**" location="/resources/"
                    cache-period="31556926"/>
