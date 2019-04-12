@@ -27,7 +27,7 @@
 					login-page="/login" default-target-url="/loginsuccess" authentication-failure-url="/login?error=true"
 				password-parameter="password" username-parameter="username"
 			/>
-		<logout logout-success-url="/login" invalidate-session="true" logout-url="/logout" delete-cookies="true" />
+		<logout logout-success-url="/" invalidate-session="true" logout-url="/logout" delete-cookies="true" />
 		<csrf disabled="true"/>
 	</http>
 	<context:component-scan base-package="vnua.khoaluan.controller"/>
