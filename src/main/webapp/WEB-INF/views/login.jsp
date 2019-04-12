@@ -6,6 +6,12 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="well"><h2>Thông tin đăng nhập</h2>
+                <c:if test="${not empty param['error']}">
+                    <p class="error">
+                        Thông tin đăng nhập không chính sác
+                    </p>
+                </c:if>
+                <p class="error"></p>
                 <form name="f" action="${pageContext.request.contextPath}/j_spring_security_check" method="POST">
                     <div class="form-group"><label class="control-label" for="input-email">Địa chỉ Email</label> <input
                             type="text" name="username" value="" placeholder="Địa chỉ Email" id="input-email"
