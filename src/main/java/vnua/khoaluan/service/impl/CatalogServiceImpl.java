@@ -61,13 +61,13 @@ public class CatalogServiceImpl implements ICatalogService {
     public boolean addProduct(ProductForm product) {
         try {
             Catalog catalog = this.findByCode(product.getCatalogCode());
-            if (product.getImageLargeFile() != null && !"".equals(product.getImageLargeFile().getOriginalFilename())) {
+            if (product.getImageLargeFile() != null && !Constant.BLANK.equals(product.getImageLargeFile().getOriginalFilename())) {
                 Utils.multipartToFile(product.getImageLargeFile(), Constant.ROOT_IMAGE_URL + product.getCode() +
                         "\\" );
                 product.setImageLarge(product.getCode() + "\\" + product.getImageLargeFile().getOriginalFilename());
             }
 
-            if (product.getImageSmallFile() != null && !"".equals(product.getImageSmallFile().getOriginalFilename())) {
+            if (product.getImageSmallFile() != null && !Constant.BLANK.equals(product.getImageSmallFile().getOriginalFilename())) {
                 Utils.multipartToFile(product.getImageSmallFile(), Constant.ROOT_IMAGE_URL + product.getCode() + "\\");
                 product.setImageSmall(product.getCode() + "\\" + product.getImageSmallFile().getOriginalFilename());
             }
@@ -79,6 +79,39 @@ public class CatalogServiceImpl implements ICatalogService {
             mongoTemplate.save(catalog);
             return true;
         } catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+            return false;
+        }
+    }
+
+    public boolean updateProduct(ProductForm product) {
+        try{
+            Catalog catalog = this.findByCode(product.getCatalogCode());
+            if(catalog != null) {
+                for(Product item: catalog.getProducts()) {
+                    if(item.getCode() != null && item.getCode().equals(product.getCode())) {
+                        item.setDiscount(product.getDiscount());
+                        item.setAmount(product.getAmount());
+                        item.setName(product.getName());
+                        item.setDiscription(product.getDiscription());
+                        item.setPrice(product.getPrice());
+                        if (product.getImageLargeFile() != null && !Constant.BLANK.equals(product.getImageLargeFile().getOriginalFilename())) {
+                            Utils.multipartToFile(product.getImageLargeFile(), Constant.ROOT_IMAGE_URL + product.getCode() +
+                                    "\\" );
+                            item.setImageLarge(product.getCode() + "\\" + product.getImageLargeFile().getOriginalFilename());
+                        }
+
+                        if (product.getImageSmallFile() != null && !Constant.BLANK.equals(product.getImageSmallFile().getOriginalFilename())) {
+                            Utils.multipartToFile(product.getImageSmallFile(), Constant.ROOT_IMAGE_URL + product.getCode() + "\\");
+                            item.setImageSmall(product.getCode() + "\\" + product.getImageSmallFile().getOriginalFilename());
+                        }
+                        mongoTemplate.save(catalog);
+                        break;
+                    }
+                }
+            }
+            return true;
+        }catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
             return false;
         }
@@ -107,4 +140,6 @@ public class CatalogServiceImpl implements ICatalogService {
     public void deleteCatalog(Catalog catalog) {
 
     }
+
+
 }

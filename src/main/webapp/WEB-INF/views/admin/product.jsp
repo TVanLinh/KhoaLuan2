@@ -6,13 +6,105 @@
 <div class="dashboard-wrapper">
     <div class="dashboard-ecommerce">
         <div class="container-fluid dashboard-content ">
-            noi dung
-            <button class="btn btn-primary" onclick="window.location = '${pageContext.request.contextPath}/admin/product/add'">
-                Them san pham
-            </button>
+            <div class="col-xs-12">
+                <c:if test="${requestScope.flag eq 1}">
+                    <div class="alert alert-success">
+                        Thêm sản phẩm thành công
+                    </div>
+                </c:if>
+                <c:if test="${requestScope.flag eq 2}">
+                    <div class="alert alert-success">
+                        Cập nhật sản phẩm thành công
+                    </div>
+                </c:if>
+            </div>
+           <form action="${pageContext.request.contextPath}/admin/product/search" method="get">
+               <div class="row">
+                   <div class="col-xs-3 " style="margin-bottom: 15px; width: 300px; margin-right: 15px">
+                       <select  id="catalogCode" class="form-control" name="catalogCode">
+                           <c:forEach items="${catalogList}" var="item">
+                               <option value="${item.code}" ${item.code eq param['catalogCode'] ? 'selected' : ''}>${item.name}</option>
+                           </c:forEach>
+                       </select>
+                   </div>
+                   <div class="col-xs-3" style="margin-bottom: 15px; width: 300px; margin-right: 15px; height: 30px">
+                       <input type="text" name="textSearch" style="height: 38px;" value="${param['textSearch']}" class="form-control" placeholder="Nhập từ khóa tìm kiếm">
+                   </div>
+
+                   <div class="col-xs-3">
+                       <button class="btn btn-default">Tìm kiếm ${requestScope.flag}</button>
+                   </div>
+               </div>
+           </form>
+            <div class="clearfix"></div>
+
+
+
+            <div class="col-xs-12" style="margin-top: 10px;margin-bottom: 10px">
+                <button class="btn btn-primary " style="margin-bottom: 10px" onclick="window.location = '${pageContext.request.contextPath}/admin/product/add'">
+                    Thêm sản phẩm
+                </button>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <td class="text-center"><strong>Ảnh</strong></td>
+                        <td class="text-center"><strong>Mã sản phẩm</strong></td>
+                        <td class="text-center"><strong>Tên sản phẩm</strong></td>
+                        <td class="text-center"><strong>Đơn giá</strong></td>
+                        <td class="text-center"><strong>Số lượng</strong></td>
+                        <td class="text-center"><strong>Giảm giá</strong></td>
+                        <td class="text-center"><strong>Hoạt động</strong></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${result.products}" var="product">
+                        <tr>
+                            <td class="text-center"><img
+                                src="${pageContext.request.contextPath}/product/imageURL/${product.catalogCode}/${product.code}/small"
+                                alt="${product.name}" title="${product.name}" width="100"/></td>
+                            <td class="text-left"><a href="#">${product.code}</a></td>
+                            <td class="text-left"><a href="#">${product.name}</a></td>
+                            <td class="text-right"><a href="#">${product.price}</a></td>
+                            <td class="text-right"><a href="#">${product.amount}</a></td>
+                            <td class="text-right"><a href="#">${product.discount}</a></td>
+                            <td class="text-center">
+                                <button type="button" data-toggle="tooltip" title="Cập nhật" class="btn btn-success"
+                                        onclick="window.location = '${pageContext.request.contextPath}/admin/product/update/${product.catalogCode}/${product.code}'">
+                                    <i class="fa fa-edit"></i></button>
+                                <button type="button" data-toggle="tooltip" title="Xoá" class="btn btn-danger"
+                                        onclick="window.location = '${pageContext.request.contextPath}/admin/product/delete/${product.catalogCode}/${product.code}'">
+                                    <i class="fa fa-times-circle"></i></button>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-xs-12 text-center" style="width: 500px; margin-left: auto; margin-right: auto">
+                <nav aria-label="Page navigation example" >
+                    <ul class="pagination" id="page">
+
+                    </ul>
+                </nav>
+            </div>
         </div>
     </div>
     <!-- ============================================================== -->
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function (event) {
+        paging(pargigInfo.pageCurrent,pargigInfo.total ,
+                    pargigInfo.maxShow, pargigInfo.maxPage, onViewPage);
+    });
+
+    function onViewPage(page) {
+        window.location = "${pageContext.request.contextPath}/admin/product/search?page=" + page
+                            + "&catalogCode="
+                            + "${catalogCode}&textSearch=" + "${param['textSearch']}" ;
+    }
+</script>
+
 
 <jsp:include page="../template/admin_footer.jsp"/>

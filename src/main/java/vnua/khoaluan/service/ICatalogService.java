@@ -19,5 +19,7 @@ public interface ICatalogService {
 
     public  boolean addProduct(ProductForm product);
 
+    public  boolean updateProduct(ProductForm product);
+
     public Product findProductByProductCode(String catalogCode, String productCode);
 }

@@ -30,6 +30,7 @@ public class Constant {
         // ------------------ Phan cho admin ----------------------
         public static final String ADMIN_PRODUCT = "admin/product";
         public static final String ADMIN_ADD_PRODUCT = "admin/addProduct";
+        public static final String ADMIN_EDIT_PRODUCT = "admin/editProduct";
         public static final String ADMIN_UPDATE_PRODUCT = "admin/editProduct";
         public static final String ADMIN_CATALOG = "admin/catalog";
         public static final String ACCESS_DENIED = "acessdenied";
@@ -57,9 +58,46 @@ public class Constant {
         public static final String MSG_008 = "MSG_008";
         public static final String MSG_009 = "MSG_009";
         public static final String MSG_010 = "MSG_010";
+        public static final String MSG_011 = "MSG_010";
+        public static final String MSG_012= "MSG_012";
+        public static final String MSG_013 = "MSG_013";
+        public static final String MSG_014 = "MSG_014";
+        public static final String MSG_015 = "MSG_015";
+        public static final String MSG_016 = "MSG_016";
+        public static final String MSG_017 = "MSG_017";
+        public static final String MSG_018 = "MSG_018";
+        public static final String MSG_019 = "MSG_019";
 
     }
 
     public static final String ROOT_IMAGE_URL = "D:\\KhoaLuan\\images\\" ;
+
+    public static final String BLANK = "";
+
+    public  static class PAGING {
+        public  int MAX_VIEW_PAGE = Constant.MAX_VIEW_PAGE;
+        public  int MAX_SHOW = Constant.MAX_SHOW;
+    }
+
+    public static final int MAX_VIEW_PAGE = 10;
+    public static final int MAX_SHOW = 10;
+
+    public static class  FLAG_CODE {
+        public static int INSERT = 1;
+        public  static int UPDATE = 2;
+        public  static int DELETE = 3;
+    }
+
+    public  class  REQUEST_CODE {
+        public  static  final  String CATATLOG_CODE = "catalogCode";
+        public  static  final  String FLAG = "flag";
+    }
+
+    public  static class  SESSION_CODE {
+        public  static  final  String AD_CATALOG_CODE = "AD_CATALOG_CODE";
+        public  static  final  String AD_TEXT_SEARCH = "AD_TEXT_SEARCH";
+        public  static  final  String AD_PAGE_CURRENT = "AD_PAGE_CURRENT";
+        public  static  final  String AD_FLAG = "AD_FLAG";
+    }
 
 }

@@ -1,11 +1,18 @@
 package vnua.khoaluan.bean;
 
+import vnua.khoaluan.entities.Product;
+
 import java.util.*;
 
 public class Result {
     private int status;
     private List<String> messgaes;
-    private Map<String, String> mesStringByKey  = new HashMap<String, String>();
+    private Map<String, String> mesStringByKey  = new LinkedHashMap<String, String>();
+    private int total;
+    public  List<Object> data;
+    public  String idScroll;
+
+    public  Set<Product> products;
 
     public int getStatus() {
         return status;
@@ -32,5 +39,43 @@ public class Result {
 
     public void setMesStringByKey(Map<String, String> mesStringByKey) {
         this.mesStringByKey = mesStringByKey;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public List<Object> getData() {
+        if(data == null) {
+            data =  new ArrayList<Object>();
+        }
+        return data;
+    }
+
+    public void setData(List<Object> data) {
+        this.data = data;
+    }
+
+    public Set<Product> getProducts() {
+        if(products == null) {
+            products = new HashSet<Product>();
+        }
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
+
+    public String getIdScroll() {
+        return idScroll;
+    }
+
+    public void setIdScroll(String idScroll) {
+        this.idScroll = idScroll;
     }
 }

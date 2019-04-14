@@ -18,25 +18,79 @@
                     </form:select>
                 </div>
 
+                <c:if test="${result.mesStringByKey['catalogCodeError'] != null}">
+                    <div class="form-group" id="catalogCodeError">
+                        <p class="error">
+                                ${result.mesStringByKey['catalogCodeError']}
+                        </p>
+                    </div>
+                </c:if>
+
+
                 <div class="form-group"><label class="control-label" for="productCode">
                     Mã sản phẩm</label>
                     <form:input  path="code" type="text" class="form-control" id="productCode"/>
                 </div>
+
+                <c:if test="${result.mesStringByKey['codeError'] != null}">
+                    <div class="form-group" id="codeError">
+                        <p class="error">
+                                ${result.mesStringByKey['codeError']}
+                        </p>
+                    </div>
+                </c:if>
 
                 <div class="form-group"><label class="control-label" for="productName">
                     Tên sản phẩm</label>
                     <form:input path="name" type="text" class="form-control" id="productName"/>
                 </div>
 
+                <c:if test="${result.mesStringByKey['nameError'] != null}">
+                    <div class="form-group" id="nameError">
+                        <p class="error">
+                                ${result.mesStringByKey['nameError']}
+                        </p>
+                    </div>
+                </c:if>
+
+                <div class="form-group"><label class="control-label" for="productMount">
+                    Số lượng</label>
+                    <form:input path="amount" type="number" min="0" class="form-control" id="productMount"/>
+                </div>
+
+                <c:if test="${result.mesStringByKey['amountError'] != null}">
+                    <div class="form-group" id="amountError">
+                        <p class="error">
+                                ${result.mesStringByKey['amountError']}
+                        </p>
+                    </div>
+                </c:if>
+
                 <div class="form-group"><label class="control-label" for="price">
                     Giá</label>
                     <form:input path="price" type="number" class="form-control" min="0" id="price"/>
                 </div>
 
+                <c:if test="${result.mesStringByKey['priceError'] != null}">
+                    <div class="form-group" id="priceError">
+                        <p class="error">
+                                ${result.mesStringByKey['priceError']}
+                        </p>
+                    </div>
+                </c:if>
+
                 <div class="form-group"><label class="control-label" for="discount">
                     Giảm giá</label>
                     <form:input path="discount" type="number" min="0" max="100" class="form-control" id="discount"/>
                 </div>
+
+                <c:if test="${result.mesStringByKey['discountError'] != null}">
+                    <div class="form-group" id="discountError">
+                        <p class="error">
+                                ${result.mesStringByKey['discountError']}
+                        </p>
+                    </div>
+                </c:if>
 
                 <div class="form-group"><label class="control-label" for="description">
                     Mô tả </label>
@@ -52,8 +106,20 @@
                     Ảnh hiện thị chi tiết sản phẩm: </label>
                     <form:input path="imageLargeFile" type="file" id="imageLargeFile"/>
                 </div>
+
+                <c:if test="${result.mesStringByKey['imageError'] != null}">
+                    <div class="form-group" id="imageError">
+                        <p class="error">
+                                ${result.mesStringByKey['imageError']}
+                        </p>
+                    </div>
+                </c:if>
+
                 <div class="form-group">
-                    <input type="submit" class="btn btn-primary" value="Thêm sản phẩm"></buton>
+                    <button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
+                    <button type="button" class="btn btn-success" onclick="window.location = '${pageContext.request.contextPath}/admin/product/search'">
+                         Quay lại
+                    </button>
                 </div>
             </form:form>
 
@@ -61,5 +127,15 @@
     </div>
     <!-- ============================================================== -->
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if("${result.idScroll}") {
+            $('html, body').animate({
+                scrollTop: $("#" + "${result.idScroll}").offset().top - 300
+            }, 1000);
+        }
+    });
+</script>
 
 <jsp:include page="../template/admin_footer.jsp"/>

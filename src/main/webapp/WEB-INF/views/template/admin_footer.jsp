@@ -1,13 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<script src="<c:url value="/resources/vendor/jquery/jquery-3.3.1.min.js"/>"></script>
-</div>
-<!-- bootstap bundle js -->
-<script src="<c:url value="/resources/vendor/bootstrap/js/bootstrap.bundle.js"/>"></script>
-<!-- slimscroll js -->
-<script src="<c:url value="/resources/vendor/slimscroll/jquery.slimscroll.js"/>"></script>
-<!-- main js -->
-<script src="<c:url value="/resources/libs/js/main-js.js"/>"></script>
+
 <!-- chart chartist js -->
 <%--<script src="<c:url value="/resources/vendor/charts/chartist-bundle/chartist.min.js"/>"></script>--%>
 <!-- sparkline js -->

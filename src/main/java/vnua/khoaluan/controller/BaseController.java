@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import vnua.khoaluan.common.Constant;
+import vnua.khoaluan.common.PargingInfo;
 import vnua.khoaluan.entities.User;
 import vnua.khoaluan.service.IUserService;
 import vnua.khoaluan.service.MongoUserDetailsService;
@@ -17,6 +18,8 @@ public class BaseController {
 
     @Autowired
     IUserService iUserService;
+
+    public PargingInfo pargingInfo = new PargingInfo();
 
     @Autowired
     protected vnua.khoaluan.service.MongoUserDetailsService mongoUserDetailsService;
@@ -56,5 +59,10 @@ public class BaseController {
             ex.printStackTrace();
         }
         return false;
+    }
+
+    @ModelAttribute("pagingData")
+    public PargingInfo informationParging() {
+        return pargingInfo;
     }
 }

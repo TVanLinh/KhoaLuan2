@@ -13,6 +13,7 @@ public class Product{
     private  String discription;
     private  String imageSmall;
     private  String imageLarge;
+    private int amount;
 
     public String getId() {
         return id;
@@ -84,6 +85,14 @@ public class Product{
 
     public void setImageLarge(String imageLarge) {
         this.imageLarge = imageLarge;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     @Override

@@ -7,20 +7,29 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import vnua.khoaluan.bean.Result;
 import vnua.khoaluan.common.Constant;
+import vnua.khoaluan.entities.Catalog;
 import vnua.khoaluan.entities.Product;
 import vnua.khoaluan.form.ProductForm;
 import vnua.khoaluan.service.ICatalogService;
+import vnua.khoaluan.service.IProductService;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.List;
 
 @Controller
 public class ProductController extends BaseController {
     @Autowired
     ICatalogService catalogService;
+
+    @Autowired
+    IProductService iProductService;
 
     @RequestMapping(value = {"/product"}, method = RequestMethod.GET)
     public String product() {
@@ -75,9 +84,82 @@ public class ProductController extends BaseController {
 
     // ------------------- Phan code admin ---------------------------------------
     @RequestMapping(value = {"/admin/product"}, method = RequestMethod.GET)
-    public String adProduct() {
+    public String adSearchProduct(Model model, HttpSession session) {
+       try{
+           List<Catalog> catalogList = catalogService.findALL();
+           String catalogActive = "";
+           for(Catalog catalog:catalogList) {
+               if(catalog.getProducts().size() > 0) {
+                   catalogActive = catalog.getCode();
+                   break;
+               }
+           }
+
+           session.setAttribute(Constant.SESSION_CODE.AD_CATALOG_CODE, catalogActive);
+           session.setAttribute(Constant.SESSION_CODE.AD_PAGE_CURRENT, 1);
+           session.setAttribute(Constant.SESSION_CODE.AD_TEXT_SEARCH, "");
+
+           model.addAttribute("catalogCode", catalogActive);
+           model.addAttribute("catalogList", catalogList);
+           Result result = this.iProductService.getProductByCatalogCode(catalogActive,
+                   (pargingInfo.pageCurrent - 1) * pargingInfo.maxItemView, pargingInfo.maxItemView);
+           pargingInfo.setTotal(result.getTotal());
+           pargingInfo.setPageCurrent(1);
+           model.addAttribute("result", result);
+
+       }catch (Exception ex) {
+           logger.error(ex.getMessage(), ex);
+       }
+       return Constant.TEMPLATE_VIEW.ADMIN_PRODUCT;
+    }
+
+
+    @RequestMapping(value = {"/admin/product/search"}, method = RequestMethod.GET)
+    public String adProduct(Model model,
+                            HttpSession session,
+                            @RequestParam(value = "catalogCode", required =  false,
+                            defaultValue = "") String catalogCode,
+                            @RequestParam(value = "textSearch", required =  false,
+                                    defaultValue = "") String textSearch,
+                            @RequestParam(value = "page", required =  false,
+                                    defaultValue = "-1") int page) {
+        try{
+            if(Constant.BLANK.equals(catalogCode)) {
+                catalogCode  = (String) session.getAttribute(Constant.SESSION_CODE.AD_CATALOG_CODE);
+                page = ((Integer) session.getAttribute(Constant.SESSION_CODE.AD_PAGE_CURRENT)).intValue();
+            }else{
+                if(!catalogCode.equals(session.getAttribute(Constant.SESSION_CODE.AD_CATALOG_CODE))) {
+                    session.setAttribute(Constant.SESSION_CODE.AD_CATALOG_CODE, catalogCode);
+                    page = 1;
+                    session.setAttribute(Constant.SESSION_CODE.AD_PAGE_CURRENT, page);
+                }
+                if(page == -1) {
+                    page = 1;
+                }
+            }
+
+            model.addAttribute("flag",session.getAttribute(Constant.SESSION_CODE.AD_FLAG));
+            session.removeAttribute(Constant.SESSION_CODE.AD_FLAG);
+            List<Catalog> catalogList = catalogService.findALL();
+
+            model.addAttribute("catalogList", catalogList);
+            model.addAttribute("catalogCode", catalogCode);
+            Result result = this.iProductService.getProductByCatalogCode(catalogCode,textSearch,
+                    (page - 1) * pargingInfo.maxItemView, pargingInfo.maxItemView);
+            pargingInfo.setTotal(result.getTotal());
+            pargingInfo.setPageCurrent(page);
+            model.addAttribute("result", result);
+
+            session.setAttribute(Constant.SESSION_CODE.AD_CATALOG_CODE, catalogCode);
+            session.setAttribute(Constant.SESSION_CODE.AD_PAGE_CURRENT, page);
+            session.setAttribute(Constant.SESSION_CODE.AD_TEXT_SEARCH, textSearch);
+        }catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+        }
         return Constant.TEMPLATE_VIEW.ADMIN_PRODUCT;
     }
+
+
 
     //
     @ModelAttribute(value = "productForm")
@@ -93,23 +175,71 @@ public class ProductController extends BaseController {
 
     @RequestMapping(value = {"/admin/product/add"}, method = RequestMethod.POST)
     public String adProductAddProcess(@ModelAttribute(value = "productForm") ProductForm productForm,
+                                      HttpSession session,
                                       Model model) {
         try {
             model.addAttribute("catalogList", catalogService.findALL());
-            catalogService.addProduct(productForm);
+            Result result = this.iProductService.validateProduct(productForm);
+            if(result.getStatus() == Constant.STATUS.OK) {
+               if( catalogService.addProduct(productForm)) {
+                   model.addAttribute("addSuccess", true);
+                   session.setAttribute(Constant.SESSION_CODE.AD_FLAG, Constant.FLAG_CODE.INSERT);
+                   return "redirect:/admin/product/search?flag="+  Constant.FLAG_CODE.INSERT
+                                            + "&catalogCode=" + productForm.getCatalogCode()
+                                            + "&textSearch=" + session.getAttribute(Constant.SESSION_CODE.AD_TEXT_SEARCH)
+                                            + "&page=" + session.getAttribute(Constant.SESSION_CODE.AD_PAGE_CURRENT);
+               }
+            }
+            model.addAttribute("result", result);
+
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
         }
         return Constant.TEMPLATE_VIEW.ADMIN_ADD_PRODUCT;
     }
 
-    @RequestMapping(value = {"/admin/product/update/{productId}"}, method = RequestMethod.GET)
-    public String adProductUpdate(@PathVariable(value = "productId") String productId) {
-        return Constant.TEMPLATE_VIEW.ADMIN_ADD_PRODUCT;
+    @RequestMapping(value = {"/admin/product/update/{catalogCode}/{productCode}"}, method = RequestMethod.GET)
+    public String adProductUpdate(@PathVariable(value = "productCode") String productCode,
+                                  @PathVariable(value = "catalogCode") String catalogCode,
+                                  Model model) {
+        try{
+            model.addAttribute("catalogList", catalogService.findALL());
+            ProductForm productForm = (ProductForm) this.catalogService.findProductByProductCode(catalogCode,productCode );
+            model.addAttribute("productForm", productForm);
+        }catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+        }
+        return Constant.TEMPLATE_VIEW.ADMIN_EDIT_PRODUCT;
     }
 
-    @RequestMapping(value = {"/admin/product/update/{productId}"}, method = RequestMethod.POST)
-    public String adProductUpdateProcess(@PathVariable(value = "productId") String productId) {
+    @RequestMapping(value = {"/admin/product/update"}, method = RequestMethod.POST)
+    public String adProductUpdateProcess(@ModelAttribute(value = "productForm") ProductForm productForm,
+                                      HttpSession session,
+                                      Model model) {
+        try {
+            model.addAttribute("catalogList", catalogService.findALL());
+            Result result = iProductService.validateProductUpdate(productForm);
+            if(result.getStatus() == Constant.STATUS.OK){
+                if(this.catalogService.updateProduct(productForm)) {
+                    session.setAttribute(Constant.SESSION_CODE.AD_FLAG , Constant.FLAG_CODE.UPDATE);
+                    return "redirect:/admin/product/search?flag=" + Constant.FLAG_CODE.UPDATE
+                            + "&catalogCode=" + productForm.getCatalogCode()
+                            + "&textSearch=" + session.getAttribute(Constant.SESSION_CODE.AD_TEXT_SEARCH)
+                            + "&page=" + session.getAttribute(Constant.SESSION_CODE.AD_PAGE_CURRENT);
+                }
+            }
+
+            model.addAttribute("result", result);
+
+        } catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+        }
+        return Constant.TEMPLATE_VIEW.ADMIN_EDIT_PRODUCT;
+    }
+
+    @RequestMapping(value = {"/admin/product/delete/{catalogCode}/{productCode}"}, method = RequestMethod.POST)
+    public String adProductUpdateProcess(@PathVariable(value = "catalogCode") String catalogCode,
+                                         @PathVariable(value = "productCode") String productCode) {
         return Constant.TEMPLATE_VIEW.ADMIN_ADD_PRODUCT;
     }
 

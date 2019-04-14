@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <html lang="en">
 
 <head>
@@ -19,8 +20,26 @@
           href="<c:url value="/resources/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css"/>"/>
     <link rel="stylesheet" href="<c:url value="/resources/vendor/charts/c3charts/c3.css"/>"/>
     <link rel="stylesheet" href="<c:url value="/resources/vendor/fonts/flag-icon-css/flag-icon.min.css"/>"/>
-
+    <link rel="stylesheet" type="text/css"
+          href="<c:url value='/resources/css/mycss.css'/>" >
     <title>Khoa Luan</title>
+
+    <script src="<c:url value="/resources/vendor/jquery/jquery-3.3.1.min.js"/>"></script>
+    </div>
+    <!-- bootstap bundle js -->
+    <script src="<c:url value="/resources/vendor/bootstrap/js/bootstrap.bundle.js"/>"></script>
+    <!-- slimscroll js -->
+    <script src="<c:url value="/resources/vendor/slimscroll/jquery.slimscroll.js"/>"></script>
+    <!-- main js -->
+    <script src="<c:url value="/resources/libs/js/main-js.js"/>"></script>
+    <script src="<c:url value="/resources/js/parging.js"/>"></script>
+    <script type="text/javascript">
+        var pargigInfo = {};
+        pargigInfo.maxPage = ${pagingData.maxPage};
+        pargigInfo.maxShow = ${pagingData.maxItemView};
+        pargigInfo.pageCurrent = ${pagingData.pageCurrent};
+        pargigInfo.total = ${pagingData.total};
+    </script>
 </head>
 <body>
 <!-- ============================================================== -->
@@ -82,7 +101,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false"
                                data-target="#submenu-1" aria-controls="submenu-2"><i class="fa fa-fw fa-rocket"></i>Dashboard</a>
-                            <div id="submenu-1" class="collapse submenu" style="">
+                            <div id="submenu-1" class="collapse submenu show" style="">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
                                         <a class="nav-link" href="${pageContext.request.contextPath}/admin/catalog">Danh muc san pham</a>
@@ -119,3 +138,4 @@
             </nav>
         </div>
     </div>
+
