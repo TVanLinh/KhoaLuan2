@@ -79,7 +79,8 @@
         $('#dataTable').DataTable( {
             searching: false,
             ordering:  true,
-            paging: false
+            paging: false,
+            emptyTable : "Không có loại sản phẩm nào"
         });
     } );
 

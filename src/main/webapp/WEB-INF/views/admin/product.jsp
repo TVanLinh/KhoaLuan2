@@ -103,7 +103,8 @@
         $('#dataTable').DataTable( {
             searching: false,
             ordering:  true,
-            paging: false
+            paging: false,
+            emptyTable: "Không có sản phẩm nào"
         });
     });
 
