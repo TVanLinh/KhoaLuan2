@@ -33,6 +33,8 @@ public class Constant {
         public static final String ADMIN_EDIT_PRODUCT = "admin/editProduct";
         public static final String ADMIN_UPDATE_PRODUCT = "admin/editProduct";
         public static final String ADMIN_CATALOG = "admin/catalog";
+        public static final String ADMIN_ADD_CATALOG = "admin/addCatalog";
+        public static final String ADMIN_EDIT_CATALOG = "admin/editCatalog";
         public static final String ACCESS_DENIED = "acessdenied";
 
     }
@@ -67,6 +69,9 @@ public class Constant {
         public static final String MSG_017 = "MSG_017";
         public static final String MSG_018 = "MSG_018";
         public static final String MSG_019 = "MSG_019";
+        public static final String MSG_020 = "MSG_020";
+        public static final String MSG_021 = "MSG_021";
+        public static final String MSG_022 = "MSG_022";
 
     }
 

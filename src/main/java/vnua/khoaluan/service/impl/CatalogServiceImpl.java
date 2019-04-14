@@ -8,12 +8,15 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import vnua.khoaluan.bean.Result;
 import vnua.khoaluan.common.Constant;
+import vnua.khoaluan.common.StringUtil;
 import vnua.khoaluan.common.Utils;
 import vnua.khoaluan.entities.Catalog;
 import vnua.khoaluan.entities.Product;
 import vnua.khoaluan.form.ProductForm;
 import vnua.khoaluan.service.ICatalogService;
+import vnua.khoaluan.service.ServiceCommon;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -21,7 +24,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class CatalogServiceImpl implements ICatalogService {
+public class CatalogServiceImpl extends ServiceCommon implements ICatalogService {
     private static final Logger logger = Logger.getLogger(CatalogServiceImpl.class);
     @Autowired(required = true)
     private MongoTemplate mongoTemplate;
@@ -130,6 +133,40 @@ public class CatalogServiceImpl implements ICatalogService {
            logger.error(ex.getMessage(), ex);
            return null;
        }
+    }
+
+    public Result saveCatalog(Catalog catalog, boolean insert) {
+        Result result = new Result();
+        try{
+            Catalog catalogDb = this.findByCode(catalog.getCode());
+            result.setStatus(Constant.STATUS.OK);
+            if(insert) {
+                if(StringUtil.isEmptyWithTrim(catalog.getCode())) {
+                    result.getMesStringByKey().put("codeError", this.getMessage(Constant.MSG_CODE.MSG_020));
+                    result.setStatus(Constant.STATUS.ERROR);
+                }else if(catalogDb.getCode() != null) {
+                    result.getMesStringByKey().put("codeError", this.getMessage(Constant.MSG_CODE.MSG_021, new String[] {catalogDb.getCode()}));
+                    result.setStatus(Constant.STATUS.ERROR);
+                }
+            }
+
+            if(StringUtil.isEmptyWithTrim(catalog.getName())) {
+                result.getMesStringByKey().put("nameError", this.getMessage(Constant.MSG_CODE.MSG_022));
+                result.setStatus(Constant.STATUS.ERROR);
+            }
+
+            if(result.getStatus() != Constant.STATUS.ERROR) {
+                catalogDb.setName(catalog.getName());
+                if(insert) {
+                    catalogDb.setCode(catalog.getCode());
+                }
+                mongoTemplate.save(catalogDb, "catalog");
+            }
+        }catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+            result.setStatus(Constant.STATUS.ERROR);
+        }
+        return  result;
     }
 
 

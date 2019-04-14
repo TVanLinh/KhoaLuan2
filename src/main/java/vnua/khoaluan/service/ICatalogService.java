@@ -1,5 +1,6 @@
 package vnua.khoaluan.service;
 
+import vnua.khoaluan.bean.Result;
 import vnua.khoaluan.entities.Catalog;
 import vnua.khoaluan.entities.Product;
 import vnua.khoaluan.form.ProductForm;
@@ -22,4 +23,6 @@ public interface ICatalogService {
     public  boolean updateProduct(ProductForm product);
 
     public Product findProductByProductCode(String catalogCode, String productCode);
+
+    public Result saveCatalog(Catalog catalog, boolean insert);
 }
