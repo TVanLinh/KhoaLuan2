@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <jsp:include page="../template/admin_header.jsp"/>
+<script type="text/javascript" src="<c:url value="/resources/vendor/datatables/datatables.min.js"/>"></script>
 
 <div class="dashboard-wrapper">
     <div class="dashboard-ecommerce">
@@ -44,7 +45,7 @@
                 <button class="btn btn-primary " style="margin-bottom: 10px" onclick="window.location = '${pageContext.request.contextPath}/admin/product/add'">
                     Thêm sản phẩm
                 </button>
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="dataTable">
                     <thead>
                     <tr>
                         <td class="text-center"><strong>Ảnh</strong></td>
@@ -94,9 +95,16 @@
 </div>
 
 <script type="text/javascript">
+
     $(document).ready(function (event) {
         paging(pargigInfo.pageCurrent,pargigInfo.total ,
                     pargigInfo.maxShow, pargigInfo.maxPage, onViewPage);
+
+        $('#dataTable').DataTable( {
+            searching: false,
+            ordering:  true,
+            paging: false
+        });
     });
 
     function onViewPage(page) {

@@ -13,3 +13,7 @@
 .page-item {
     cursor: pointer;
 }
+
+#dataTable_info{
+    display: none;
+}

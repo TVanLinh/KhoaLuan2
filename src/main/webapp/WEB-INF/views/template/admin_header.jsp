@@ -8,6 +8,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
+    <title>Khoa Luan</title>
     <link rel="stylesheet" href="<c:url value="/resources/vendor/bootstrap/css/bootstrap.min.css"/>">
     <%--<link rel="stylesheet" type="text/css"--%>
           <%--href="<c:url value='/resources/css/stylesheet.min.css'/>" >--%>
@@ -22,7 +23,7 @@
     <link rel="stylesheet" href="<c:url value="/resources/vendor/fonts/flag-icon-css/flag-icon.min.css"/>"/>
     <link rel="stylesheet" type="text/css"
           href="<c:url value='/resources/css/mycss.css'/>" >
-    <title>Khoa Luan</title>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/vendor/datatables/datatables.min.css"/>">
 
     <script src="<c:url value="/resources/vendor/jquery/jquery-3.3.1.min.js"/>"></script>
     </div>
@@ -31,6 +32,8 @@
     <!-- slimscroll js -->
     <script src="<c:url value="/resources/vendor/slimscroll/jquery.slimscroll.js"/>"></script>
     <!-- main js -->
+
+    <script type="text/javascript" src="<c:url value="/resources/vendor/datatables/datatables.min.js"/>"></script>
     <script src="<c:url value="/resources/libs/js/main-js.js"/>"></script>
     <script src="<c:url value="/resources/js/parging.js"/>"></script>
     <script type="text/javascript">
