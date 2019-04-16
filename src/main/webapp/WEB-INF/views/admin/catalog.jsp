@@ -46,8 +46,8 @@
                     <tbody>
                     <c:forEach items="${catalogList}" var="catalog">
                         <tr>
-                            <td class="text-left"><a href="#">${catalog.code}</a></td>
-                            <td class="text-left"><a href="#">${catalog.name}</a></td>
+                            <td class="text-left"><a href="${pageContext.request.contextPath}/admin/product?catalogCode=${catalog.code}">${catalog.code}</a></td>
+                            <td class="text-left"><a href="${pageContext.request.contextPath}/admin/product?catalogCode=${catalog.code}">${catalog.name}</a></td>
                             <td class="text-center">
                                 <button type="button" data-toggle="tooltip" title="Cập nhật" class="btn btn-success"
                                         onclick="window.location = '${pageContext.request.contextPath}/admin/catalog/update/${catalog.code}'">
