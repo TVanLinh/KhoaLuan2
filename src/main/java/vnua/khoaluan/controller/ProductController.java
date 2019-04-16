@@ -84,24 +84,27 @@ public class ProductController extends BaseController {
 
     // ------------------- Phan code admin ---------------------------------------
     @RequestMapping(value = {"/admin/product"}, method = RequestMethod.GET)
-    public String adSearchProduct(Model model, HttpSession session) {
+    public String adSearchProduct(Model model,
+                                  HttpSession session,
+                                  @RequestParam(value = "catalogCode",defaultValue = "", required = false) String catalogCode
+                    ) {
        try{
            List<Catalog> catalogList = catalogService.findALL();
-           String catalogActive = "";
-           for(Catalog catalog:catalogList) {
-               if(catalog.getProducts().size() > 0) {
-                   catalogActive = catalog.getCode();
-                   break;
+           if(Constant.BLANK.equals(catalogCode)) {
+               for(Catalog catalog:catalogList) {
+                   if(catalog.getProducts().size() > 0) {
+                       catalogCode = catalog.getCode();
+                       break;
+                   }
                }
            }
-
-           session.setAttribute(Constant.SESSION_CODE.AD_CATALOG_CODE, catalogActive);
+           session.setAttribute(Constant.SESSION_CODE.AD_CATALOG_CODE, catalogCode);
            session.setAttribute(Constant.SESSION_CODE.AD_PAGE_CURRENT, 1);
            session.setAttribute(Constant.SESSION_CODE.AD_TEXT_SEARCH, "");
 
-           model.addAttribute("catalogCode", catalogActive);
+           model.addAttribute("catalogCode", catalogCode);
            model.addAttribute("catalogList", catalogList);
-           Result result = this.iProductService.getProductByCatalogCode(catalogActive,
+           Result result = this.iProductService.getProductByCatalogCode(catalogCode,
                    (pargingInfo.pageCurrent - 1) * pargingInfo.maxItemView, pargingInfo.maxItemView);
            pargingInfo.setTotal(result.getTotal());
            pargingInfo.setPageCurrent(1);
