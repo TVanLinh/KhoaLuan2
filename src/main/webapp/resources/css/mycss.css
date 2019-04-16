@@ -17,3 +17,10 @@
 #dataTable_info{
     display: none;
 }
+
+.product-box .product-thumbnail.flexbox-grid a img {
+    max-width: 100%;
+    width: auto;
+    height: 170px !important;
+    width: 225px !important;
+}

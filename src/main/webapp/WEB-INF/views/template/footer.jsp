@@ -21,12 +21,12 @@
                         <div class="col-xs-12 col-sm-6 col-lg-2">
                             <div class="footer-widget"><h3 class="hastog"><span>Thông tin</span></h3>
                                 <ul class="list-menu list-blogs">
-                                    <li><a href="http://ggffg.myzozo.net/gioi-thieu">Giới thiệu</a></li>
-                                    <li><a href="http://ggffg.myzozo.net/thong-tin-van-chuyen">Thông tin vận chuyển</a>
+                                    <li><a href="#">Giới thiệu</a></li>
+                                    <li><a href="#">Thông tin vận chuyển</a>
                                     </li>
-                                    <li><a href="http://ggffg.myzozo.net/quy-dinh-va-dieu-khoan">Quy định và Điều
+                                    <li><a href="#">Quy định và Điều
                                         khoản</a></li>
-                                    <li><a href="http://ggffg.myzozo.net/chinh-sach-bao-mat">Chính sách bảo mật</a></li>
+                                    <li><a href="#">Chính sách bảo mật</a></li>
                                 </ul>
                             </div>
                         </div>

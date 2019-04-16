@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="template/header.jsp"/>
 
 
@@ -11,24 +12,24 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-5">
                         <div class="large-image"><a
-                                href="http://ggffg.myzozo.net/image/cache/catalog/san-pham/cach-giam-can-thanh-mat-tu-qua-kiwi1-700x700.jpg"
+                                href="<c:url value='/product/imageURL/${product.catalogCode}/${product.code}/large'/>"
                                 data-rel="prettyPhoto[product-gallery]">
                                 <img  id="zoom_01"
-                                      src="http://ggffg.myzozo.net/image/cache/catalog/san-pham/cach-giam-can-thanh-mat-tu-qua-kiwi1-700x700.jpg"
-                                      alt="Kiwi xanh"> </a>
+                                      src="<c:url value='/product/imageURL/${product.catalogCode}/${product.code}/large'/>"
+                                      alt="${product.name}"> </a>
                             <div class="hidden"></div>
                         </div>
                         <div id="gallery_01" class="owl-carousel owl-theme thumbnail-product" data-md-items="4"
                              data-sm-items="4" data-xs-items="4" data-xss-items="2" data-margin="10"
                              data-nav="true">
                             <div class="item"><a class="clearfix" href="#"
-                                                 data-image="http://ggffg.myzozo.net/image/cache/catalog/san-pham/cach-giam-can-thanh-mat-tu-qua-kiwi1-700x700.jpg">
-                                <img src="http://ggffg.myzozo.net/image/cache/catalog/san-pham/cach-giam-can-thanh-mat-tu-qua-kiwi1-100x100.jpg"
-                                     alt="Kiwi xanh"/> </a></div>
+                                                 data-image="/product/imageURL/${product.catalogCode}/${product.code}/large">
+                                <img src="${pageContext.request.contextPath}/product/imageURL/${product.catalogCode}/${product.code}/small"
+                                     alt="${product.name}"/> </a></div>
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-7 details-pro"><h1 class="title-head" itemprop="name">
-                        Kiwi xanh</h1>
+                        ${product.name}</h1>
                         <div class="reviews clearfix">
                             <div class="f-left margin-right-10">
                                 <div class="zozoweb-product-reviews-badge">
@@ -46,13 +47,16 @@
                             </div>
                         </div>
                         <div class="status clearfix">
-                            <div class="clearfix"> Mã sản phẩm: <strong itemprop="model">KX433865</strong></div>
-                            <div class="clearfix"> Tình trạng: <span class="inventory">Còn trong kho</span></div>
+                            <div class="clearfix"> Mã sản phẩm: <strong itemprop="model">${product.code}</strong></div>
+                            <div class="clearfix"> Tình trạng: <span class="inventory">${product.amount > 0 ? 'Còn trong kho' : 'Hết hàng'}</span></div>
                         </div>
                         <div class="price-box clearfix">
-                            <div class="special-price"><span class="price product-price">119,000đ</span></div>
+                            <div class="special-price"><span class="price product-price"> <fmt:formatNumber
+                                    type="number"
+                                    maxFractionDigits="3"
+                                    value="${param.price - (param.price * param.discount)/100}"/>đ</span></div>
                             <span itemprop="offers" itemscope itemtype="http://schema.org/Offer"> <meta
-                                    itemprop="price" content="119000"/> <meta itemprop="priceCurrency"
+                                    itemprop="price" content="${param.price - (param.price * param.discount)/100}"/> <meta itemprop="priceCurrency"
                                                                               content="VND"/> </span>
                             <ul class="list-unstyled"></ul>
                         </div>

@@ -3,11 +3,12 @@ package vnua.khoaluan.entities;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
 @Document
-public class Catalog {
+public class Catalog{
     @Id
     private  String id;
     private  String code;
@@ -49,4 +50,5 @@ public class Catalog {
     public void setProducts(Set<Product> products) {
         this.products = products;
     }
+
 }

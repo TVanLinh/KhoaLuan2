@@ -36,9 +36,24 @@ public class ProductController extends BaseController {
         return Constant.TEMPLATE_VIEW.PRODUCT;
     }
 
-    @RequestMapping(value = {"/product/{id}"}, method = RequestMethod.GET)
-    public String productDetail(@PathVariable(value = "id") String productId) {
+    @RequestMapping(value = {"/product/detail/{catalogCode}/{productCode}"}, method = RequestMethod.GET)
+    public String productDetail(Model model, @PathVariable(value = "catalogCode") String catalogCode,
+                                @PathVariable(value = "productCode") String productCode) {
+        try{
+            Product product = this.catalogService.findProductByProductCode(catalogCode, productCode);
+            if(product  == null) {
+                return "redirect:/";
+            }
+            model.addAttribute("product", product);
+        }catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+        }
         return Constant.TEMPLATE_VIEW.PRODUCT_DETAIL;
+    }
+
+    @RequestMapping(value = {"{catalogCode}/product/"}, method = RequestMethod.GET)
+    public String productList(@PathVariable(value = "catalogCode") String catalogCode) {
+        return Constant.TEMPLATE_VIEW.PRODUCT;
     }
 
     @RequestMapping(value = {"/product/imageURL/{catalogCode}/{productCode}/{option}"}, method = RequestMethod.GET)
