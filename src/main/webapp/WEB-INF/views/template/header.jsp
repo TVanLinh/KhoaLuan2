@@ -16,10 +16,13 @@
 
     <script type="text/javascript"
             src="<c:url value='/resources/js/jquery-3.3.1.min.js.js'/>"></script>
-
-    <link href="http://ggffg.myzozo.net/image/catalog/logo/fav.png" rel="icon">
+    <script type="text/javascript"  src="<c:url value='/resources/vendor/jquery-ui-1.12.1/jquery-ui.min.js'/>"></script>
+    <link rel="stylesheet" type="text/css"
+          href="<c:url value='/resources/vendor/jquery-ui-1.12.1/jquery-ui.min.css'/>">
+    <%--<link href="/image/catalog/logo/fav.png" rel="icon">--%>
     <link rel="stylesheet" type="text/css"
           href="<c:url value='/resources/css/stylesheet.css'/>" >
+
     <link rel="stylesheet" type="text/css"
           href="<c:url value='/resources/vendor/fontawesome-5.8.1-web/css/fontawesome.min.css'/>" >
     <link rel="stylesheet" type="text/css"

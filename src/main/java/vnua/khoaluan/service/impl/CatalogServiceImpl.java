@@ -20,6 +20,8 @@ import vnua.khoaluan.service.ServiceCommon;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -32,6 +34,12 @@ public class CatalogServiceImpl extends ServiceCommon implements ICatalogService
     public List<Catalog> findALL() {
         try {
             List<Catalog> catalogs = mongoTemplate.findAll(Catalog.class);
+            Collections.sort(catalogs, new Comparator<Catalog>() {
+                public int compare(Catalog o1, Catalog o2) {
+                    return o1.getName().compareTo(o2.getName());
+                }
+            });
+
             return catalogs;
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);

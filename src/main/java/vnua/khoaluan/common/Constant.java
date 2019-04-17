@@ -91,6 +91,7 @@ public class Constant {
         public static int INSERT = 1;
         public  static int UPDATE = 2;
         public  static int DELETE = 3;
+        public  static int DELETE_ERROR = 30;
     }
 
     public  class  REQUEST_CODE {

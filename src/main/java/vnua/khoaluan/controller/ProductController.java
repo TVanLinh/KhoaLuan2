@@ -21,6 +21,8 @@ import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -105,6 +107,7 @@ public class ProductController extends BaseController {
                     ) {
        try{
            List<Catalog> catalogList = catalogService.findALL();
+
            if(Constant.BLANK.equals(catalogCode)) {
                for(Catalog catalog:catalogList) {
                    if(catalog.getProducts().size() > 0) {
@@ -140,25 +143,36 @@ public class ProductController extends BaseController {
                             @RequestParam(value = "textSearch", required =  false,
                                     defaultValue = "") String textSearch,
                             @RequestParam(value = "page", required =  false,
-                                    defaultValue = "-1") int page) {
+                                    defaultValue = "-1") int page,
+                            @RequestParam(value = "redirect", required =  false,
+                                    defaultValue = "false") boolean  redirect) {
         try{
-            if(Constant.BLANK.equals(catalogCode)) {
-                catalogCode  = (String) session.getAttribute(Constant.SESSION_CODE.AD_CATALOG_CODE);
-                page = ((Integer) session.getAttribute(Constant.SESSION_CODE.AD_PAGE_CURRENT)).intValue();
+            if(!redirect) {
+                if(Constant.BLANK.equals(catalogCode)) {
+                    catalogCode  = (String) session.getAttribute(Constant.SESSION_CODE.AD_CATALOG_CODE);
+                    page = ((Integer) session.getAttribute(Constant.SESSION_CODE.AD_PAGE_CURRENT)).intValue();
+                }else{
+                    if(!catalogCode.equals(session.getAttribute(Constant.SESSION_CODE.AD_CATALOG_CODE))) {
+                        session.setAttribute(Constant.SESSION_CODE.AD_CATALOG_CODE, catalogCode);
+                        page = 1;
+                        session.setAttribute(Constant.SESSION_CODE.AD_PAGE_CURRENT, page);
+                    }
+                    if(page == -1) {
+                        page = 1;
+                    }
+                }
             }else{
-                if(!catalogCode.equals(session.getAttribute(Constant.SESSION_CODE.AD_CATALOG_CODE))) {
-                    session.setAttribute(Constant.SESSION_CODE.AD_CATALOG_CODE, catalogCode);
-                    page = 1;
-                    session.setAttribute(Constant.SESSION_CODE.AD_PAGE_CURRENT, page);
-                }
-                if(page == -1) {
-                    page = 1;
-                }
+                page = 1;
             }
 
             model.addAttribute("flag",session.getAttribute(Constant.SESSION_CODE.AD_FLAG));
             session.removeAttribute(Constant.SESSION_CODE.AD_FLAG);
             List<Catalog> catalogList = catalogService.findALL();
+            Collections.sort(catalogList, new Comparator<Catalog>() {
+                public int compare(Catalog o1, Catalog o2) {
+                    return o1.getName().compareTo(o2.getName());
+                }
+            });
 
             model.addAttribute("catalogList", catalogList);
             model.addAttribute("catalogCode", catalogCode);
@@ -255,10 +269,20 @@ public class ProductController extends BaseController {
         return Constant.TEMPLATE_VIEW.ADMIN_EDIT_PRODUCT;
     }
 
-    @RequestMapping(value = {"/admin/product/delete/{catalogCode}/{productCode}"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/admin/product/delete/{catalogCode}/{productCode}"}, method = RequestMethod.GET)
     public String adProductUpdateProcess(@PathVariable(value = "catalogCode") String catalogCode,
-                                         @PathVariable(value = "productCode") String productCode) {
-        return Constant.TEMPLATE_VIEW.ADMIN_ADD_PRODUCT;
+                                         @PathVariable(value = "productCode") String productCode,
+                                         HttpSession session) {
+        try{
+           Result result =  this.iProductService.deleteProduct(catalogCode, productCode);
+        }catch (Exception ex ){
+            return "redirect:/admin/product/search?flag=" + Constant.FLAG_CODE.DELETE_ERROR
+                    + "&catalogCode=" + session.getAttribute(Constant.SESSION_CODE.AD_CATALOG_CODE)
+                    + "&textSearch=" + session.getAttribute(Constant.SESSION_CODE.AD_TEXT_SEARCH)
+                    + "&page=" + session.getAttribute(Constant.SESSION_CODE.AD_PAGE_CURRENT);
+        }
+       return  "redirect:/admin/product/search?flag=" + Constant.FLAG_CODE.DELETE
+                + "&catalogCode=" + catalogCode + "&page=" + 1;
     }
 
 }

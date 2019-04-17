@@ -12,4 +12,6 @@ public interface IProductService {
     Result validateProduct(ProductForm productForm);
 
     Result validateProductUpdate(ProductForm productForm);
+
+    Result deleteProduct(String catalogCode, String productCode);
 }

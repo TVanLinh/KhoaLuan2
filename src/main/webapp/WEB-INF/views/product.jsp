@@ -80,7 +80,5 @@
   </div>
 </div>
 
-
-
 <jsp:include page="template/partner.jsp"/>
 <jsp:include page="template/footer.jsp"/>

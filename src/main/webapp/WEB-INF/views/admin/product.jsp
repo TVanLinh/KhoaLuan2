@@ -18,6 +18,16 @@
                         Cập nhật sản phẩm thành công
                     </div>
                 </c:if>
+                <c:if test="${requestScope.flag eq 3}">
+                    <div class="alert alert-success">
+                        Xóa sản phẩm thành công
+                    </div>
+                </c:if>
+                <c:if test="${requestScope.flag eq 30}">
+                    <div class="alert alert-warning">
+                        Xóa sản phẩm không thành công, vui lòng thử lại
+                    </div>
+                </c:if>
             </div>
            <form action="${pageContext.request.contextPath}/admin/product/search" method="get">
                <div class="row">
@@ -73,7 +83,7 @@
                                         onclick="window.location = '${pageContext.request.contextPath}/admin/product/update/${product.catalogCode}/${product.code}'">
                                     <i class="fa fa-edit"></i></button>
                                 <button type="button" data-toggle="tooltip" title="Xoá" class="btn btn-danger"
-                                        onclick="window.location = '${pageContext.request.contextPath}/admin/product/delete/${product.catalogCode}/${product.code}'">
+                                        onclick="deleteProduct('${product.catalogCode}','${product.code}')">
                                     <i class="fa fa-times-circle"></i></button>
                             </td>
                         </tr>
@@ -112,6 +122,28 @@
         window.location = "${pageContext.request.contextPath}/admin/product/search?page=" + page
                             + "&catalogCode="
                             + "${catalogCode}&textSearch=" + "${param['textSearch']}" ;
+    }
+    
+    function  deleteProduct(catalogCode, productCode) {
+        $( "#dialog" ).dialog({
+            title: "Bạn có muốn xóa sản phẩm không?",
+            minWidth: "300",
+            buttons: [
+                {
+                    text: "Không",
+                    click: function() {
+                        $( this ).dialog( "close" );
+                    }
+                },
+                {
+                    text: "Có",
+                    click: function() {
+                        $( this ).dialog( "close" );
+                        window.location = '${pageContext.request.contextPath}' + "/admin/product/delete/" + catalogCode + "/" + productCode;
+                    }
+                }
+            ]
+        });
     }
 </script>
 

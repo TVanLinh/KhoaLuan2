@@ -64,12 +64,14 @@
                                     value="${param.price - (param.price * param.discount)/100}"/>đ
                         </span>
                     </div>
-                    <div class="old-price">
+                    <c:if test="${param.discount != 0}">
+                        <div class="old-price">
                         <span class="price product-price-old"><fmt:formatNumber
                                 type="number"
                                 maxFractionDigits="3"
                                 value="${param.price}"/>đ</span>
-                    </div>
+                        </div>
+                    </c:if>
                     <meta itemprop="price"
                           content="${param.price}">
                 </div>

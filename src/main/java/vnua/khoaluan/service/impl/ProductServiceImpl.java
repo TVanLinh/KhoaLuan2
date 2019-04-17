@@ -265,5 +265,29 @@ public class ProductServiceImpl extends ServiceCommon implements IProductService
         return result;
     }
 
+    public Result deleteProduct(String catalogCode, String productCode) {
+        Result  result = new Result();
+        result.setStatus(Constant.STATUS.OK);
+        try{
+            Catalog catalog = this.iCatalogService.findByCode(catalogCode);
+            Product product = null;
+            for(Product item: catalog.getProducts()) {
+                if(item.getCatalogCode().equals(catalogCode) && item.getCode().equals(productCode)) {
+                    product = item;
+                    continue;
+                }
+            }
+
+            if(product != null) {
+                catalog.getProducts().remove(product);
+                mongoTemplate.save(catalog);
+            }
+        }catch (Exception ex) {
+            result.setStatus(Constant.STATUS.ERROR);
+            logger.error(ex.getMessage(), ex);
+        }
+        return  result;
+    }
+
 
 }

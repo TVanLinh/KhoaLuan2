@@ -13,6 +13,7 @@
     <%--<link rel="stylesheet" type="text/css"--%>
           <%--href="<c:url value='/resources/css/stylesheet.min.css'/>" >--%>
     <link href="<c:url value="/resources/vendor/fonts/circular-std/style.css"/>" rel="stylesheet">
+
     <link rel="stylesheet" href="<c:url value="/resources/libs/css/style.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/vendor/fonts/fontawesome/css/fontawesome-all.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/vendor/charts/chartist-bundle/chartist.css"/>"/>
@@ -24,9 +25,11 @@
     <link rel="stylesheet" type="text/css"
           href="<c:url value='/resources/css/mycss.css'/>" >
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/vendor/datatables/datatables.min.css"/>">
+    <link rel="stylesheet" type="text/css"
+          href="<c:url value='/resources/vendor/jquery-ui-1.12.1/jquery-ui.min.css'/>">
 
     <script src="<c:url value="/resources/vendor/jquery/jquery-3.3.1.min.js"/>"></script>
-    </div>
+    <script type="text/javascript"  src="<c:url value='/resources/vendor/jquery-ui-1.12.1/jquery-ui.min.js'/>"></script>
     <!-- bootstap bundle js -->
     <script src="<c:url value="/resources/vendor/bootstrap/js/bootstrap.bundle.js"/>"></script>
     <!-- slimscroll js -->
@@ -45,6 +48,7 @@
     </script>
 </head>
 <body>
+<div id="dialog"></div>
 <!-- ============================================================== -->
 <!-- main wrapper -->
 <!-- ============================================================== -->
