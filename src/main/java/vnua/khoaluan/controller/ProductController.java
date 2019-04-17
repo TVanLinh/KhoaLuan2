@@ -275,7 +275,9 @@ public class ProductController extends BaseController {
                                          HttpSession session) {
         try{
            Result result =  this.iProductService.deleteProduct(catalogCode, productCode);
+            session.setAttribute(Constant.SESSION_CODE.AD_FLAG, Constant.FLAG_CODE.DELETE);
         }catch (Exception ex ){
+            session.setAttribute(Constant.SESSION_CODE.AD_FLAG, Constant.FLAG_CODE.DELETE_ERROR);
             return "redirect:/admin/product/search?flag=" + Constant.FLAG_CODE.DELETE_ERROR
                     + "&catalogCode=" + session.getAttribute(Constant.SESSION_CODE.AD_CATALOG_CODE)
                     + "&textSearch=" + session.getAttribute(Constant.SESSION_CODE.AD_TEXT_SEARCH)
