@@ -43,7 +43,7 @@
                    </div>
 
                    <div class="col-xs-3">
-                       <button class="btn btn-default">Tìm kiếm ${requestScope.flag}</button>
+                       <button class="btn btn-default">Tìm kiếm</button>
                    </div>
                </div>
            </form>
