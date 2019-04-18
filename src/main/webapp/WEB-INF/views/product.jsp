@@ -24,7 +24,7 @@
           </div>
       </c:forEach>
       <div class="clearfix"></div>
-      <div class="col-xs-12 text-center" style="width: 500px; margin-left: auto; margin-right: auto">
+      <div class="col-xs-12 text-center" style="margin-left: auto; margin-right: auto">
           <nav aria-label="Page navigation example" >
               <ul class="pagination" id="page">
 
