@@ -53,8 +53,24 @@ public class ProductController extends BaseController {
         return Constant.TEMPLATE_VIEW.PRODUCT_DETAIL;
     }
 
-    @RequestMapping(value = {"{catalogCode}/product/"}, method = RequestMethod.GET)
-    public String productList(@PathVariable(value = "catalogCode") String catalogCode) {
+    @RequestMapping(value = {"/{catalogCode}/product"}, method = RequestMethod.GET)
+    public String productList(Model model,
+                        @PathVariable(value = "catalogCode") String catalogCode,
+                        @RequestParam(value = "page", required =  false, defaultValue = "1") int page) {
+        try{
+            Result result = this.iProductService.getProductByCatalogCode(catalogCode,
+                    (page - 1)* this.pargingInfo.maxItemView,  pargingInfo.maxItemView);
+
+            this.pargingInfo.pageCurrent = page;
+            this.pargingInfo.total = result.getTotal();
+            if(result.getProducts().size() == 0) {
+                this.pargingInfo.total = 0;
+            }
+            model.addAttribute("catalogCode", catalogCode);
+            model.addAttribute("result", result);
+        }catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+        }
         return Constant.TEMPLATE_VIEW.PRODUCT;
     }
 
@@ -190,6 +206,8 @@ public class ProductController extends BaseController {
         }
         return Constant.TEMPLATE_VIEW.ADMIN_PRODUCT;
     }
+
+
 
 
 

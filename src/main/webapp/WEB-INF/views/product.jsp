@@ -3,82 +3,48 @@
 <jsp:include page="template/header.jsp"/>
 
 <div class="container " style="margin-top: 25px;">
-    <div class="row">
-        <div class="col-xs-12">
-            <ul class="breadcrumb" itemscope="" itemtype="http://schema.org/BreadcrumbList">
-                <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"><a itemprop="item"
-                                                                                                     href="http://ggffg.myzozo.net/">
-                    <span itemprop="name"><i class="fa fa-home"></i></span> </a> <span><i class="fa fa-angle-right"></i></span>
-                    <meta itemprop="position" content="1">
-                </li>
-                <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem"><a itemprop="item"
-                                                                                                     href="http://ggffg.myzozo.net/gioi-thieu">
-                    <strong itemprop="name">Sản phẩm</strong> </a>
-                    <meta itemprop="position" content="2">
-                </li>
-            </ul>
-        </div>
 
-    </div>
 </div>
 
 <div class="container">
   <div class="row">
-      <div class="col-xs-3">
-          <div class="item">
-              <div class="product-box"
-                   itemscope=""
-                   itemtype="/Product">
-                  <div class="product-thumbnail flexbox-grid">
-                      <a href="product/1"
-                         title="Kiwi xanh"> <img
-                              src="<c:url value='/resources/images/kiwi1-228x228.jpg'/>"
-                              alt="Kiwi xanh"
-                              itemprop="image">
-                      </a>
-                      <div class="product-action hidden-md hidden-sm hidden-xs clearfix">
-                          <form class="form variants form-nut-grid margin-bottom-0">
-                              <div>
-                                  <a class="btn-buy btn-cart btn btn-primary left-to add_to_cart"
-                                     data-toggle="tooltip"
-                                     title=""
-                                     href="card/add/86&amp;redirect=true"
-                                     data-original-title="Mua ngay">
-                                      <i class="fa fa-shopping-bag"></i>
-                                  </a> <a
-                                      href="product/1"
-                                      data-toggle="tooltip"
-                                      title=""
-                                      class="btn-gray btn_view btn right-to"
-                                      data-original-title="Xem"><i
-                                      class="fa fa-eye"></i></a>
-                              </div>
-                          </form>
-                      </div>
-                  </div>
-                  <div class="product-info a-center">
-                      <h3 class="product-name"><a
-                              href="product/1"
-                              title="Kiwi xanh"
-                              itemprop="url">
-                          <span itemprop="name">Kiwi xanh</span>
-                      </a></h3>
-                      <div class="price-box clearfix"
-                           itemprop="offers"
-                           itemscope=""
-                           itemtype="/Offer">
-                          <div class="special-price">
-                              <span class="price product-price">119,000đ</span>
-                          </div>
-                          <meta itemprop="price"
-                                content="119000">
-                      </div>
-                  </div>
-              </div>
+      <c:if test="${result.products == null || result.products.size() eq 0}">
+          <div class="col-xs-12">Không có sản phẩm nào</div>
+      </c:if>
+      <c:forEach items="${result.products}" var="product">
+          <div class="col-xs-3">
+              <jsp:include page="template/product_view_2.jsp">
+                  <jsp:param name="index" value="1"/>
+                  <jsp:param name="catalogCode" value="${product.catalogCode}"/>
+                  <jsp:param name="code" value="${product.code}"/>
+                  <jsp:param name="name" value="${product.name}"/>
+                  <jsp:param name="price" value="${product.price}"/>
+                  <jsp:param name="discount" value="${product.discount}"/>
+              </jsp:include>
           </div>
+      </c:forEach>
+      <div class="clearfix"></div>
+      <div class="col-xs-12 text-center" style="width: 500px; margin-left: auto; margin-right: auto">
+          <nav aria-label="Page navigation example" >
+              <ul class="pagination" id="page">
+
+              </ul>
+          </nav>
       </div>
   </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function (event) {
+        paging(pargigInfo.pageCurrent,pargigInfo.total ,
+            pargigInfo.maxShow, pargigInfo.maxPage, onViewPage);
+    });
+
+    function onViewPage(page) {
+        window.location = "${pageContext.request.contextPath}/${catalogCode}/product?page=" + page;
+    }
+</script>
+
 
 <jsp:include page="template/partner.jsp"/>
 <jsp:include page="template/footer.jsp"/>

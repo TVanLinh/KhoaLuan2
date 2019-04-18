@@ -17,6 +17,7 @@
     <script type="text/javascript"
             src="<c:url value='/resources/js/jquery-3.3.1.min.js.js'/>"></script>
     <script type="text/javascript"  src="<c:url value='/resources/vendor/jquery-ui-1.12.1/jquery-ui.min.js'/>"></script>
+    <script src="<c:url value="/resources/js/parging.js"/>"></script>
     <link rel="stylesheet" type="text/css"
           href="<c:url value='/resources/vendor/jquery-ui-1.12.1/jquery-ui.min.css'/>">
     <%--<link href="/image/catalog/logo/fav.png" rel="icon">--%>
@@ -27,7 +28,13 @@
           href="<c:url value='/resources/vendor/fontawesome-5.8.1-web/css/fontawesome.min.css'/>" >
     <link rel="stylesheet" type="text/css"
           href="<c:url value='/resources/css/mycss.css'/>" >
-
+    <script type="text/javascript">
+        var pargigInfo = {};
+        pargigInfo.maxPage = ${pagingData.maxPage};
+        pargigInfo.maxShow = ${pagingData.maxItemView};
+        pargigInfo.pageCurrent = ${pagingData.pageCurrent};
+        pargigInfo.total = ${pagingData.total};
+    </script>
     <style type="text/css">.fb_hidden {
         position: absolute;
         top: -10000px;

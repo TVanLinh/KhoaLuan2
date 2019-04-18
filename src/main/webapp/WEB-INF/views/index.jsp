@@ -46,7 +46,7 @@
                                         <c:forEach items="${catalogList}" var="catalog">
                                             <li class="nav-item"><i class="fa fa-arrow-circle-right"
                                                                     aria-hidden="true"></i>
-                                                <a href="${pageContext.request.contextPath}/product/${catalog.code}"
+                                                <a href="${pageContext.request.contextPath}/${catalog.code}/product"
                                                    class="nav-link">
                                                         ${catalog.name}
                                                 </a>
@@ -65,42 +65,6 @@
 <div class="container-fluid">
     <div class="row">
         <div id="content" class="main">
-            <section class="awe-section-2 " id="service_gallery-1">
-                <div class="section_banner">
-                    <div class="container"><h2 class="hidden"></h2>
-                        <div class="banner-slider owl-carousel owl-loaded owl-drag" data-nav="true" data-lg-items="3"
-                             data-md-items="3" data-sm-items="2" data-xs-items="2">
-                            <div class="owl-stage-outer">
-                                <div class="owl-stage"
-                                     style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1170px;">
-                                    <div class="owl-item active" style="width: 360px; margin-right: 30px;">
-                                        <div class="item"><a href="javascript:void(0)" class="clearfix"> <img
-                                                src="./Freshfood - Hệ thống cửa hàng thực phẩm sạch VietGAP_files/banner-1-0x0.png"
-                                                alt=""> </a></div>
-                                    </div>
-                                    <div class="owl-item active" style="width: 360px; margin-right: 30px;">
-                                        <div class="item"><a href="javascript:void(0)" class="clearfix"> <img
-                                                src="./Freshfood - Hệ thống cửa hàng thực phẩm sạch VietGAP_files/banner-2-0x0.png"
-                                                alt=""> </a></div>
-                                    </div>
-                                    <div class="owl-item active" style="width: 360px; margin-right: 30px;">
-                                        <div class="item"><a href="javascript:void(0)" class="clearfix"> <img
-                                                src="./Freshfood - Hệ thống cửa hàng thực phẩm sạch VietGAP_files/banner-3-0x0.png"
-                                                alt=""> </a></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="owl-nav disabled">
-                                <button type="button" role="presentation" class="owl-prev disabled"><i
-                                        class="fa fa-angle-left"></i></button>
-                                <button type="button" role="presentation" class="owl-next disabled"><i
-                                        class="fa fa-angle-right"></i></button>
-                            </div>
-                            <div class="owl-dots disabled"></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
             <section class="awe-section-3 module_category category_custom" id="category_custom-2">
                 <div class="section section-collection section-collection-1">
                     <div class="container">
