@@ -15,10 +15,7 @@ import vnua.khoaluan.service.ICatalogService;
 import vnua.khoaluan.service.IProductService;
 import vnua.khoaluan.service.ServiceCommon;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
 @Service
 @Transactional
@@ -40,7 +37,10 @@ public class ProductServiceImpl extends ServiceCommon implements IProductService
             }
             if(offset == 0 && catalog.getProducts().size() < offset + limit) {
                 limit = catalog.getProducts().size();
-            }else if(catalog.getProducts().size() < offset + limit) {
+            }else  if(offset > catalog.getProducts().size()) {
+                offset = catalog.getProducts().size() - 1;
+                limit = 0;
+            } else if(catalog.getProducts().size() < offset + limit) {
                 limit = catalog.getProducts().size() - offset;
             }
             products = new ArrayList<Product>(catalog.getProducts()).subList(offset, offset + limit);
@@ -78,7 +78,10 @@ public class ProductServiceImpl extends ServiceCommon implements IProductService
             }
             if(offset == 0 && productsDB.size() < offset + limit) {
                 limit = productsDB.size();
-            }else if(productsDB.size() < offset + limit) {
+            }else  if(offset > productsDB.size()) {
+                offset = productsDB.size() - 1;
+                limit = 0;
+            } else if(productsDB.size() < offset + limit) {
                 limit = productsDB.size() - offset;
             }
             products = new ArrayList<Product>(productsDB).subList(offset, offset + limit);
@@ -289,5 +292,58 @@ public class ProductServiceImpl extends ServiceCommon implements IProductService
         return  result;
     }
 
+    public Result getProduct(String textSearch, int offset, int limit) {
+        Result  result = new Result();
+        try{
+            List<Product> productDB = new ArrayList<Product>();
+            List<Catalog> catalogs = this.iCatalogService.findALL();
+            for(Catalog catalog: catalogs) {
+                productDB.addAll(catalog.getProducts());
+            }
+
+            List<Product> productResult = new ArrayList<Product>();
+
+            for(Product product: productDB) {
+                if(textInProduct(product, textSearch)
+                ) {
+                    productResult.add(product);
+                }
+            }
+
+            if(productResult.size() < offset) {
+                productResult = new ArrayList<Product>();
+            }
+
+            if(offset == 0 && productResult.size() < offset + limit) {
+                limit = productResult.size();
+            }else if(offset > productResult.size()) {
+                offset = productResult.size() - 1;
+                limit = 0;
+            } else if(productResult.size() < offset + limit) {
+                limit = productResult.size() - offset;
+            }
+
+            result.setTotal(productResult.size());
+            productResult = new ArrayList<Product>(productResult).subList(offset, offset + limit);
+            result.getProducts().addAll(productResult);
+            result.setStatus(Constant.STATUS.OK);
+            return  result;
+        }catch (Exception ex) {
+            result.setStatus(Constant.STATUS.ERROR);
+            result.setProducts(new HashSet<Product>());
+            logger.error(ex.getMessage(), ex);
+        }
+        return result;
+    }
+
+    private boolean textInProduct(Product product, String textSearch) {
+        String text = textSearch.toLowerCase();
+        return product.getName().toLowerCase().indexOf(text) != -1 ||
+                product.getCode().toLowerCase().indexOf(text) != -1 ||
+                product.getDiscription().toLowerCase().indexOf(text) != -1 ||
+                (product.getPrice() + "").indexOf(text) != -1 ||
+                (product.getDiscount() + "").indexOf(text) != -1 ||
+                (product.getAmount() + "").indexOf(text) != -1;
+    }
 
 }

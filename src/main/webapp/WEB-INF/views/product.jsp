@@ -35,13 +35,21 @@
 </div>
 
 <script type="text/javascript">
+    var textSearch = "${textSearch}";
+    var viewFlag = "${viewFlag}";
+
     $(document).ready(function (event) {
         paging(pargigInfo.pageCurrent,pargigInfo.total ,
             pargigInfo.maxShow, pargigInfo.maxPage, onViewPage);
     });
 
     function onViewPage(page) {
-        window.location = "${pageContext.request.contextPath}/${catalogCode}/product?page=" + page;
+        if(viewFlag === "1") {
+            window.location = "${pageContext.request.contextPath}/product/search?page=" + page
+                    + "&textSearch="+textSearch;
+        }else{
+            window.location = "${pageContext.request.contextPath}/${catalogCode}/product?page=" + page;
+        }
     }
 </script>
 

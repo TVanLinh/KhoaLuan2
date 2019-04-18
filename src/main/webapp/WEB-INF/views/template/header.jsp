@@ -508,12 +508,22 @@
                 </ul>
                 <div class="menu-search f-right bbbbb">
                     <div class="header_search search_form">
-                        <div class="form input-group search-bar search_form"><input type="search" name="search" value=""
-                                                                                    placeholder="Tìm kiếm"
-                                                                                    class="input-group-field st-default-search-input search-text"
-                                                                                    autocomplete="off"> <span
-                                class="input-group-btn"> <button class="btn icon-fallback-text"> <i
-                                class="fa fa-search"></i> </button> </span></div>
+
+                           <div class="form input-group search-bar search_form">
+                                <form method="get" action="${pageContext.request.contextPath}/product/search">
+                                    <input type="search" name="textSearch"
+                                           value="${textSearch}"
+                                           placeholder="Tìm kiếm"
+                                           class="input-group-field st-default-search-input search-text"
+                                           autocomplete="off">
+                                    <span c lass="input-group-btn">
+                                        <button class="btn icon-fallback-text">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </form>
+                           </div>
+
                     </div>
                 </div>
             </div>

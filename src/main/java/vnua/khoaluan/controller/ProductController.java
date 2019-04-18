@@ -34,7 +34,42 @@ public class ProductController extends BaseController {
     IProductService iProductService;
 
     @RequestMapping(value = {"/product"}, method = RequestMethod.GET)
-    public String product() {
+    public String product(Model model, @RequestParam(value = "textSearch", required =  false, defaultValue = "")
+                                        String textSearch) {
+        try{
+            pargingInfo.pageCurrent = 1;
+            Result result = this.iProductService.getProduct(textSearch,(pargingInfo.pageCurrent - 1)
+                                    * pargingInfo.maxItemView, pargingInfo.maxItemView);
+            pargingInfo.total = result.getTotal();
+            model.addAttribute("textSearch", textSearch);
+            model.addAttribute("viewFlag", 1);
+            model.addAttribute("result", result);
+        }catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+        }
+        return Constant.TEMPLATE_VIEW.PRODUCT;
+    }
+
+    @RequestMapping(value = {"/product/search"}, method = RequestMethod.GET)
+    public String productSearch(Model model, @RequestParam(value = "textSearch", required =  false, defaultValue = "")
+                                            String textSearch,
+                                @RequestParam(value = "page", required =  false, defaultValue = "1")
+                                        int page) {
+        try{
+            if(page < 0) {
+                page = 1;
+            }
+
+            pargingInfo.pageCurrent = page;
+            Result result = this.iProductService.getProduct(textSearch,(pargingInfo.pageCurrent - 1)
+                    * pargingInfo.maxItemView, pargingInfo.maxItemView);
+            pargingInfo.total = result.getTotal();
+            model.addAttribute("textSearch", textSearch);
+            model.addAttribute("viewFlag", 1);
+            model.addAttribute("result", result);
+        }catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+        }
         return Constant.TEMPLATE_VIEW.PRODUCT;
     }
 

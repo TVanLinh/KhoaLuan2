@@ -31,18 +31,19 @@ function paging(pageCurrent,totalRescord , rowInPage, numberPageShow, onViewPage
     }
 
     var html = "";
-    if(pageCurrent >　numberPageShow/2){
+    if(pageCurrent >　numberPageShow/2 ){
         html += " <li class='page-item '><a class='page-link' onclick='onViewPage(" + (pageCurrent - 1) + ")'>Previous</a></li>";
         html += " <li class='page-item '><a class='page-link' onclick='onViewPage(" + ( 1) + ")'><<</a></li>";
     }
 
     for(var i = min;i<= max;i++ ) {
-        if(i == pageCurrent) {
-            html += " <li class='page-item active'><a class='page-link' onclick='onViewPage(" + i + ")'>" + i + "</a></li>";
-        }else{
-            html += " <li class='page-item '><a class='page-link' onclick='onViewPage(" + i + ")'>" + i + "</a></li>";
+        if(i > 0) {
+            if(i == pageCurrent) {
+                html += " <li class='page-item active'><a class='page-link' onclick='onViewPage(" + i + ")'>" + i + "</a></li>";
+            }else{
+                html += " <li class='page-item '><a class='page-link' onclick='onViewPage(" + i + ")'>" + i + "</a></li>";
+            }
         }
-
     }
     if(max < totalPage) {
         html += " <li class='page-item '><a class='page-link' onclick='onViewPage(" + ( totalPage) + ")'>>></a></li>";
