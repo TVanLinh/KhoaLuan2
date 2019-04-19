@@ -54,9 +54,9 @@
                             <div class="special-price"><span class="price product-price"> <fmt:formatNumber
                                     type="number"
                                     maxFractionDigits="3"
-                                    value="${param.price - (param.price * param.discount)/100}"/>đ</span></div>
+                                    value="${(product.price - (product.price * product.discount)/100)}"/>đ</span></div>
                             <span itemprop="offers" itemscope itemtype="http://schema.org/Offer"> <meta
-                                    itemprop="price" content="${param.price - (param.price * param.discount)/100}"/> <meta itemprop="priceCurrency"
+                                    itemprop="price" content="${product.price - (product.price * product.discount)/100}"/> <meta itemprop="priceCurrency"
                                                                               content="VND"/> </span>
                             <ul class="list-unstyled"></ul>
                         </div>
