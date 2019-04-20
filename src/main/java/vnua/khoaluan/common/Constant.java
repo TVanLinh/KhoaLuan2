@@ -94,6 +94,13 @@ public class Constant {
         public  static int DELETE_ERROR = 30;
     }
 
+    public static class  CART_CODE {
+        public static int  ADD = 1;
+        public  static int UPDATE = 2;
+        public  static int DELETE = 3;
+        public  static int DELETE_ERROR = 30;
+    }
+
     public  class  REQUEST_CODE {
         public  static  final  String CATATLOG_CODE = "catalogCode";
         public  static  final  String FLAG = "flag";
@@ -104,6 +111,11 @@ public class Constant {
         public  static  final  String AD_TEXT_SEARCH = "AD_TEXT_SEARCH";
         public  static  final  String AD_PAGE_CURRENT = "AD_PAGE_CURRENT";
         public  static  final  String AD_FLAG = "AD_FLAG";
+        public  static  final  String CART = "CART";
+    }
+
+    public  static class CONFIG {
+        public  static  final  String FEE_TRANSFER = "FEE_TRANSFER";
     }
 
 }

@@ -6,11 +6,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import vnua.khoaluan.bean.Cart;
 import vnua.khoaluan.common.Constant;
 import vnua.khoaluan.common.PargingInfo;
 import vnua.khoaluan.entities.User;
 import vnua.khoaluan.service.IUserService;
 import vnua.khoaluan.service.MongoUserDetailsService;
+
+import javax.servlet.http.HttpSession;
+import java.util.Map;
+import java.util.TreeMap;
 
 @Controller
 public class BaseController {
@@ -37,6 +42,15 @@ public class BaseController {
             ex.printStackTrace();
         }
         return null;
+    }
+
+    @ModelAttribute("cartSize")
+    public Integer cartSize(HttpSession httpSession) {
+        Map<String, Cart> carts = (Map<String, Cart>) httpSession.getAttribute(Constant.SESSION_CODE.CART);
+        if(carts == null) {
+            carts = new TreeMap<String, Cart>();
+        }
+        return carts.keySet().size();
     }
 
    protected boolean isAdmin() {

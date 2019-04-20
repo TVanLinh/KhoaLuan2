@@ -31,7 +31,7 @@
                             <a class="btn-buy btn-cart btn btn-primary left-to add_to_cart"
                                data-toggle="tooltip"
                                title=""
-                               href="${pageContext.request.contextPath}/card/add/${param.code}&amp;redirect=true"
+                               href="${pageContext.request.contextPath}/cart/add/${param.catalogCode}/${param.code}?redirect=true"
                                data-original-title="Mua ngay">
                                 <i class="fa fa-shopping-bag"></i>
                             </a> <a

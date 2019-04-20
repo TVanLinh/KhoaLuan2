@@ -476,7 +476,7 @@
                                 <div class="icon f-left relative"><i class="fa fa-shopping-bag"></i> <span
                                         class="cartCount count_item_pr hidden-lg" id="cart-total">1</span></div>
                                 <div class="right-content hidden-md"><span class="label">Giỏ hàng</span> <span
-                                        class="cartCount2">(1)</span></div>
+                                        class="cartCount2">(${cartSize})</span></div>
                             </a></div>
                         </div>
                     </div>
@@ -484,10 +484,10 @@
             </div>
         </div>
         <div class="menu-bar hidden-md hidden-lg"><img
-                src="./Freshfood - Hệ thống cửa hàng thực phẩm sạch VietGAP_files/menu-bar.png" alt="menu bar"></div>
+                src="<c:url value='/resources/images/menu-bar.png'/>" alt="menu bar"></div>
         <div class="icon-cart-mobile hidden-md hidden-lg f-left absolute"
              onclick="window.location.href='${pageContext.request.contextPath}/cart'">
-            <div class="icon relative"><i class="fa fa-shopping-bag"></i> <span class="cartCount count_item_pr">1</span>
+            <div class="icon relative"><i class="fa fa-shopping-bag"></i> <span class="cartCount count_item_pr">(${cartSize})</span>
             </div>
         </div>
     </div>

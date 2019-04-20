@@ -24,3 +24,6 @@
     height: 170px !important;
     width: 225px !important;
 }
+.dataTables_empty {
+    display: none !important;
+}

@@ -14,6 +14,8 @@ public class Result {
 
     public  Set<Product> products;
 
+    public  Map<String, Cart> carts;
+
     public int getStatus() {
         return status;
     }
@@ -77,5 +79,16 @@ public class Result {
 
     public void setIdScroll(String idScroll) {
         this.idScroll = idScroll;
+    }
+
+    public Map<String, Cart> getCarts() {
+        if(carts == null) {
+             carts = new TreeMap<String, Cart>();
+        }
+        return carts;
+    }
+
+    public void setCarts(Map<String, Cart> carts) {
+        this.carts = carts;
     }
 }

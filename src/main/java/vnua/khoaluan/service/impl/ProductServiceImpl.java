@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import vnua.khoaluan.bean.Cart;
 import vnua.khoaluan.bean.Result;
 import vnua.khoaluan.common.Constant;
 import vnua.khoaluan.common.StringUtil;
@@ -15,6 +16,7 @@ import vnua.khoaluan.service.ICatalogService;
 import vnua.khoaluan.service.IProductService;
 import vnua.khoaluan.service.ServiceCommon;
 
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @Service
