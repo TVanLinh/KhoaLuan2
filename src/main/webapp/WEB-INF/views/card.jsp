@@ -9,7 +9,7 @@
         vertical-align: middle !important;
     }
 </style>
-<div class="container">
+<div class="container" >
     <div class="row">
         <div class="clearfix"></div>
         <div class="col-sm-12 col-xs-12 col-md-12"><h4>Giỏ hàng</h4>
@@ -96,6 +96,13 @@
                                                                               class="btn btn-default pull-left button_shopping">Tiếp
                             tục mua hàng</a></div>
                         <div class="col-sm-6 col-xs-6 col_button_checkout">
+                            <c:if test="${user.orders.size() != 0}" >
+                                <button
+                                        onclick="window.location = '${pageContext.request.contextPath}/cart/order' "
+                                        class="btn  btn-warning" style="right: -110px;
+    position: relative;">Danh danh sách đơn hàng đã đặt</button>
+                            </c:if>
+
                             <button <c:if test="${cartSize == 0}" > disabled = "disabled"</c:if>
                                     <c:if test="${cartSize != 0}" > onclick="window.location = '${pageContext.request.contextPath}/cart/checkout' "</c:if>
                                 class="btn btn-primary pull-right button_checkout">Tiến hành đặt hàng</button></div>
