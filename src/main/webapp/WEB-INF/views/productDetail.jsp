@@ -68,19 +68,20 @@
                                 <form:form method="post" modelAttribute="cartForm" action="${pageContext.request.contextPath}/cart/update">
                                     <div class="form-group form-groupx form-detail-action clearfix"><label
                                             class="f-left" for="input-quantity">Số lượng</label>
-                                        <div class="custom custom-btn-number"><span class="qtyminus" onclick="minusAmount()"
-                                                                                    data-field="quantity">-</span>
+                                        <div class="custom custom-btn-number"><span class="qtyminus"
+                                                                                    data-field="quantity" <c:if test="${product.amount != 0}">onclick="minusAmount()"</c:if>>-</span>
                                             <form:input path="amount" type="text" class="input-text qty"
                                                    title="Số lượng" maxlength="12" id="input-quantity"
                                                    value="1"
                                                    onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;"
-                                                   onchange="if(this.value == '')this.value=1;"/> <span class="qtyplus" onclick="plusAmount()"
+                                                   onchange="if(this.value == '')this.value=1;"/>
+                                                        <span <c:if test="${product.amount != 0}">onclick="plusAmount()"</c:if> class="qtyplus"
                                                                                                         data-field="quantity">+</span>
                                             <form:hidden path="catalogCode" value="${product.catalogCode}"/>
                                             <form:hidden path="productCode" value="${product.code}"/>
 
                                         </div>
-                                        <button type="submit"
+                                        <button type="submit"  <c:if test="${product.amount == 0}">disabled="disabled"</c:if>
                                                 class="btn btn-lg btn-primary btn-cart btn-cart2 add_to_cart btn_buy add_to_cart"
                                                 type="button" id="button-cart" data-loading-text="Đang tải..."><span>Thêm vào giỏ <i
                                                 class="fa .fa-caret-right"></i></span></button>
