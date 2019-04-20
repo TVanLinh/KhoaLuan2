@@ -35,6 +35,21 @@ public class CartServiceImpl extends ServiceCommon implements ICartService {
         return result;
     }
 
+    public Result getProductBySession(HttpSession httpSession) {
+        Result  result = new Result();
+        result.setStatus(Constant.STATUS.OK);
+        try{
+            Map<String, Cart> carts = (Map<String, Cart>) httpSession.getAttribute(Constant.SESSION_CODE.CART);
+            result.setCarts(carts);
+            httpSession.setAttribute(Constant.SESSION_CODE.CART, carts);
+        }catch (Exception ex) {
+            result.setStatus(Constant.STATUS.ERROR);
+            result.setProducts(new HashSet<Product>());
+            logger.error(ex.getMessage(), ex);
+        }
+        return result;
+    }
+
     public Result removeProductInCart(HttpSession httpSession, String productCode) {
         Result  result = new Result();
         result.setStatus(Constant.STATUS.OK);

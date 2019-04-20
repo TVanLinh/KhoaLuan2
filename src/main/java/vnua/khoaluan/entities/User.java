@@ -3,6 +3,7 @@ package vnua.khoaluan.entities;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Document
@@ -16,6 +17,8 @@ public class User {
     private String address;
     private List<String> roles;
     private String passWord;
+
+    private List<Order> orders;
 
     public String getId() {
         return id;
@@ -79,5 +82,16 @@ public class User {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public List<Order> getOrders() {
+        if(orders == null) {
+            orders = new ArrayList<Order>();
+        }
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }

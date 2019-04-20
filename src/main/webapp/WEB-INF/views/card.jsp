@@ -42,6 +42,7 @@
                                         <div class="input-group btn-block" style="top: 15px">
                                                 <form:input path="amount" type="number" cssStyle="height: 40px"
                                                             value="${cart.amount}" min="1" size="1"
+                                                            maxlength="12"
                                                             class="form-control amount" id="${cart.product.code}-amount"
                                                             onchange="amountChange(this)"/>
 
@@ -96,6 +97,7 @@
                             tục mua hàng</a></div>
                         <div class="col-sm-6 col-xs-6 col_button_checkout">
                             <button <c:if test="${cartSize == 0}" > disabled = "disabled"</c:if>
+                                    <c:if test="${cartSize != 0}" > onclick="window.location = '${pageContext.request.contextPath}/cart/checkout' "</c:if>
                                 class="btn btn-primary pull-right button_checkout">Tiến hành đặt hàng</button></div>
                         <%--href="${pageContext.request.contextPath}/cart/checkout"--%>
                     </div>

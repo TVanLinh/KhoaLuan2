@@ -9,6 +9,9 @@ public interface ICartService {
 
     Result getProductBySession(HttpSession httpSession, int offset, int limit);
 
+
+    Result getProductBySession(HttpSession httpSession);
+
     Result removeProductInCart(HttpSession httpSession, String productCode);
 
     Result updateCart(HttpSession httpSession, Cart cart);

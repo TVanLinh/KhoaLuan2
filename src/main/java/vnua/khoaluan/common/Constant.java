@@ -27,6 +27,8 @@ public class Constant {
         //gioi thieu
         public static final String INTRODUCE = "introduce";
 
+        public static final String LIST_ORDER = "listOrder";
+
         // ------------------ Phan cho admin ----------------------
         public static final String ADMIN_PRODUCT = "admin/product";
         public static final String ADMIN_ADD_PRODUCT = "admin/addProduct";
@@ -112,10 +114,30 @@ public class Constant {
         public  static  final  String AD_PAGE_CURRENT = "AD_PAGE_CURRENT";
         public  static  final  String AD_FLAG = "AD_FLAG";
         public  static  final  String CART = "CART";
+        public  static  final  String CART_CHECKOUT_REDIRIECT = "CART_CHECKOUT_REDIRIECT";
     }
 
     public  static class CONFIG {
         public  static  final  String FEE_TRANSFER = "FEE_TRANSFER";
+    }
+
+    public static class DATE_FORMAT {
+        public  static  final  String ORDER_FORMAT = "HH:mm:yy dd/MM/yyyy";
+        public  static  final  String ORDER_CODE_FORMAT = "yyyyMMddHHmmss";
+    }
+
+    public  static  class ORDER_STATUS {
+        // Trang thi vua dat hang xong
+        public  static  final int INIT = 1;
+        // Trang thai da tiep nhan don hang
+        public  static  final int RECIER = 2;
+        // Trang thai dang van chuyen
+        public  static  final int TRANSFER = 3;
+
+        // Trang thai huy don hang
+        public  static  final int CANCEL = -99;
+        // Trang thai da giao hang xong
+        public  static  final int END = 100;
     }
 
 }

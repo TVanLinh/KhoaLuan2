@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <jsp:include page="template/header.jsp"/>
 
 
@@ -63,23 +64,28 @@
                         <div class="product-summary product_description margin-bottom-15"></div>
                         <div id="product" class="form-product">
                             <div class="margin-bottom-10 dqdt-form form">
-                                <div class="box-variant clearfix "><input type="hidden" name="product_id"
-                                                                          value="86"/></div>
-                                <div class="form-group form-groupx form-detail-action clearfix"><label
-                                        class="f-left" for="input-quantity">Số lượng</label>
-                                    <div class="custom custom-btn-number"><span class="qtyminus"
-                                                                                data-field="quantity">-</span>
-                                        <input type="text" class="input-text qty" data-field="quantity"
-                                               title="Số lượng" maxlength="12" id="input-quantity" name="quantity"
-                                               value="1"
-                                               onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;"
-                                               onchange="if(this.value == '')this.value=1;"/> <span class="qtyplus"
-                                                                                                    data-field="quantity">+</span>
+                                <div class="box-variant clearfix "></div>
+                                <form:form method="post" modelAttribute="cartForm" action="${pageContext.request.contextPath}/cart/update">
+                                    <div class="form-group form-groupx form-detail-action clearfix"><label
+                                            class="f-left" for="input-quantity">Số lượng</label>
+                                        <div class="custom custom-btn-number"><span class="qtyminus" onclick="minusAmount()"
+                                                                                    data-field="quantity">-</span>
+                                            <form:input path="amount" type="text" class="input-text qty"
+                                                   title="Số lượng" maxlength="12" id="input-quantity"
+                                                   value="1"
+                                                   onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;"
+                                                   onchange="if(this.value == '')this.value=1;"/> <span class="qtyplus" onclick="plusAmount()"
+                                                                                                        data-field="quantity">+</span>
+                                            <form:hidden path="catalogCode" value="${product.catalogCode}"/>
+                                            <form:hidden path="productCode" value="${product.code}"/>
+
+                                        </div>
+                                        <button type="submit"
+                                                class="btn btn-lg btn-primary btn-cart btn-cart2 add_to_cart btn_buy add_to_cart"
+                                                type="button" id="button-cart" data-loading-text="Đang tải..."><span>Thêm vào giỏ <i
+                                                class="fa .fa-caret-right"></i></span></button>
                                     </div>
-                                    <button class="btn btn-lg btn-primary btn-cart btn-cart2 add_to_cart btn_buy add_to_cart"
-                                            type="button" id="button-cart" data-loading-text="Đang tải..."><span>Thêm vào giỏ <i
-                                            class="fa .fa-caret-right"></i></span></button>
-                                </div>
+                                </form:form>
                             </div>
                         </div>
                     </div>
@@ -88,6 +94,26 @@
         </div>
     </div>
 </div>
-
+<script type="text/javascript">
+    function minusAmount() {
+        var amount = Number($("#input-quantity").val());
+        if(!amount) {
+            amount = 1;
+        }
+        if(amount > 1) {
+            amount = amount - 1;
+            $("#input-quantity").val(amount)
+        }
+    }
+    function plusAmount() {
+        var amount = Number($("#input-quantity").val());
+        if(!amount) {
+            amount = 1;
+        }else{
+            amount = amount + 1;
+        }
+        $("#input-quantity").val(amount)
+    }
+</script>
 <jsp:include page="template/partner.jsp"/>
 <jsp:include page="template/footer.jsp"/>

@@ -393,7 +393,7 @@
                                 <li><i class="fa fa-mobile"></i> <b>Điện thoại:</b> <span> <a href="tell:0123456789"> ${user.phone}</a> </span>
                                 </li>
                                 <li class="margin-left-20"><i class="fa fa-envelope"></i> <b>Email:</b> <span> <a
-                                        href="mailto:abc@gmail.com">${user.email}</a> </span></li>
+                                        href="${pageContext.request.contextPath}/cart/order">${user.email}</a> </span></li>
                             </c:if>
 
                         </ul>

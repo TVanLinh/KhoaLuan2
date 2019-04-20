@@ -10,6 +10,7 @@ import vnua.khoaluan.bean.Cart;
 import vnua.khoaluan.common.Constant;
 import vnua.khoaluan.common.PargingInfo;
 import vnua.khoaluan.entities.User;
+import vnua.khoaluan.form.CartForm;
 import vnua.khoaluan.service.IUserService;
 import vnua.khoaluan.service.MongoUserDetailsService;
 
@@ -79,4 +80,10 @@ public class BaseController {
     public PargingInfo informationParging() {
         return pargingInfo;
     }
+
+    @ModelAttribute(value = "cartForm")
+    public CartForm initCartForm() {
+        return   new CartForm();
+    }
+
 }

@@ -19,6 +19,7 @@ import vnua.khoaluan.form.UserForm;
 import vnua.khoaluan.service.IUserService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 //@RequestMapping("/user")
@@ -89,10 +90,16 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping(value = {"/loginsuccess"}, method = RequestMethod.GET)
-    public String loginSuccess() {
+    public String loginSuccess(HttpSession session) {
         if (isAdmin()) {
             return "redirect:/admin/product";
         }
+
+        if(session.getAttribute(Constant.SESSION_CODE.CART_CHECKOUT_REDIRIECT )!= null) {
+            session.removeAttribute(Constant.SESSION_CODE.CART_CHECKOUT_REDIRIECT);
+            return "redirect:/cart";
+        }
+
         return "redirect:/";
     }
 
@@ -102,11 +109,15 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping(value = {"/register"}, method = RequestMethod.POST)
-    public String registerProcess(@ModelAttribute UserForm userForm, Model model, HttpServletRequest request) {
+    public String registerProcess(@ModelAttribute UserForm userForm, Model model, HttpSession session) {
         try {
             Result result = this.iUserService.registerUser(userForm);
             if (result.getStatus() == Constant.STATUS.OK) {
                 authenticateUser(userForm);
+                if(session.getAttribute(Constant.SESSION_CODE.CART_CHECKOUT_REDIRIECT )!= null) {
+                    session.removeAttribute(Constant.SESSION_CODE.CART_CHECKOUT_REDIRIECT);
+                    return "redirect:/cart";
+                }
                 return "redirect:/";
             }
             model.addAttribute("result", result);
