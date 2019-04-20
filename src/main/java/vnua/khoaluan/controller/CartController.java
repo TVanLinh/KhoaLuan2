@@ -35,19 +35,21 @@ public class CartController extends BaseController {
     @Autowired
     IOrderService iOrderService;
 
+    @ModelAttribute("feeTransfer")
+    public  String initFeeTransfer(){
+        String feeTransfer = this.iConfigService.getConfigByKey(Constant.CONFIG.FEE_TRANSFER);
+        if(feeTransfer == null || StringUtil.isEmptyWithTrim(feeTransfer)) {
+            feeTransfer = "35000";
+        }
+        return feeTransfer;
+    }
+
     @RequestMapping(value = {"/cart"}, method = RequestMethod.GET)
     public String product(HttpSession httpSession, Model model) {
       try{
-        Result result = iCartService.getProductBySession(httpSession, 0, 0);
-        model.addAttribute("result", result);
-          model.addAttribute("carts", result.getCarts().values());
-
-          String feeTransfer = this.iConfigService.getConfigByKey(Constant.CONFIG.FEE_TRANSFER);
-          if(feeTransfer == null || StringUtil.isEmptyWithTrim(feeTransfer)) {
-              feeTransfer = "35000";
-          }
-
-          model.addAttribute("feeTransfer", 35000);
+            Result result = iCartService.getProductBySession(httpSession, 0, 0);
+            model.addAttribute("result", result);
+            model.addAttribute("carts", result.getCarts().values());
 
       }catch (Exception ex) {
         logger.error(ex.getMessage(), ex);
@@ -114,7 +116,12 @@ public class CartController extends BaseController {
                 Order order = new Order();
                 Result result = this.iCartService.getProductBySession(httpSession);
                 order.getCarts().addAll(result.getCarts().values());
-                this.iOrderService.saveOrder(this.userCurrent(), order);
+
+                result =  this.iOrderService.saveOrder(this.userCurrent(), order);
+                if(result.getStatus() != Constant.STATUS.ERROR) {
+                    httpSession.removeAttribute(Constant.SESSION_CODE.CART);
+                    httpSession.setAttribute(Constant.SESSION_CODE.ORDER_FLAG, Constant.FLAG_CODE.INSERT);
+                }
                 return "redirect:/cart/order";
             }
             //--------------
@@ -125,8 +132,13 @@ public class CartController extends BaseController {
     }
 
     @RequestMapping(value = {"/cart/order"}, method = RequestMethod.GET)
-    public String listProduct(Model model, @RequestParam(value = "page", required =  false, defaultValue = "1") int page) {
+    public String listProduct(HttpSession session, Model model, @RequestParam(value = "page", required =  false, defaultValue = "1") int page) {
         try{
+            if(session.getAttribute(Constant.SESSION_CODE.ORDER_FLAG) != null) {
+                model.addAttribute("flag", session.getAttribute(Constant.SESSION_CODE.ORDER_FLAG));
+                session.removeAttribute(Constant.SESSION_CODE.ORDER_FLAG);
+            }
+
             List<Order> orders = this.userCurrent().getOrders();
             Collections.sort(orders, new Comparator<Order>() {
                 public int compare(Order o1, Order o2) {
@@ -154,5 +166,22 @@ public class CartController extends BaseController {
             logger.error(ex.getMessage(), ex);
         }
         return Constant.TEMPLATE_VIEW.LIST_ORDER;
+    }
+
+    @RequestMapping(value = {"/cart/order/{orderCode}"}, method = RequestMethod.GET)
+    public  String orderDetail(Model model, @PathVariable(value = "orderCode") String orderCode){
+        try{
+
+            Order order = this.iOrderService.findOrderByOrderCode(userCurrent().getEmail(),
+                    orderCode);
+            if(order == null) {
+                return "redirect:/";
+            }
+            model.addAttribute("order",
+                    order);
+        }catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+        }
+        return Constant.TEMPLATE_VIEW.ORDER_DETAIL;
     }
 }

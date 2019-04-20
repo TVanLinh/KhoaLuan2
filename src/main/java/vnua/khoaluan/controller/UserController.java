@@ -100,7 +100,7 @@ public class UserController extends BaseController {
             return "redirect:/cart";
         }
 
-        return "redirect:/";
+        return "redirect:/cart/order";
     }
 
     @ModelAttribute("userForm")

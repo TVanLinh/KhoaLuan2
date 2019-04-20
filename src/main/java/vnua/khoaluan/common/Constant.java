@@ -29,6 +29,8 @@ public class Constant {
 
         public static final String LIST_ORDER = "listOrder";
 
+        public static final String ORDER_DETAIL = "orderDetail";
+
         // ------------------ Phan cho admin ----------------------
         public static final String ADMIN_PRODUCT = "admin/product";
         public static final String ADMIN_ADD_PRODUCT = "admin/addProduct";
@@ -113,6 +115,7 @@ public class Constant {
         public  static  final  String AD_TEXT_SEARCH = "AD_TEXT_SEARCH";
         public  static  final  String AD_PAGE_CURRENT = "AD_PAGE_CURRENT";
         public  static  final  String AD_FLAG = "AD_FLAG";
+        public  static  final  String ORDER_FLAG = "ORDER_FLAG";
         public  static  final  String CART = "CART";
         public  static  final  String CART_CHECKOUT_REDIRIECT = "CART_CHECKOUT_REDIRIECT";
     }

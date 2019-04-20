@@ -12,7 +12,7 @@
 <div class="container">
     <div class="row">
         <div class="clearfix"></div>
-        <div class="col-sm-12 col-xs-12 col-md-12"><h3>Giỏ hàng</h3>
+        <div class="col-sm-12 col-xs-12 col-md-12"><h4>Giỏ hàng</h4>
             <table class="table table-bordered" id="dataTable">
                         <thead>
                         <tr>
@@ -114,7 +114,7 @@
     <c:forEach items="${carts}" var="item">
          productID.push("${item.product.code}");
     </c:forEach>
-    
+
     function amountChange(dom) {
         total();
     }

@@ -21,6 +21,8 @@
 		<intercept-url pattern="/forbidden" access="permitAll" />
 		<intercept-url pattern="/admin/**" access="hasAnyRole('ROLE_ADMIN')" />
         <intercept-url pattern="/user/loginsuccess" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
+		<intercept-url pattern="/cart/order" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
+		<intercept-url pattern="/cart/order/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
 		<!--<intercept-url pattern="/listUsers" access="hasRole('ROLE_ADMIN')" />-->
 		
         <form-login login-processing-url="/j_spring_security_check" always-use-default-target="true"

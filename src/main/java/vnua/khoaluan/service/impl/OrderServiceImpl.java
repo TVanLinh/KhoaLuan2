@@ -15,6 +15,7 @@ import vnua.khoaluan.service.IUserService;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional
@@ -31,6 +32,7 @@ public class OrderServiceImpl implements IOrderService {
 
     public Result saveOrder(User userInfo, Order order) {
         Result result = new Result();
+        result.setStatus(Constant.STATUS.OK);
         try{
             // TODO validate
             DateFormat dateFormat = new SimpleDateFormat(Constant.DATE_FORMAT.ORDER_CODE_FORMAT);
@@ -68,4 +70,21 @@ public class OrderServiceImpl implements IOrderService {
         }
         return  result;
     }
+
+    public Order findOrderByOrderCode(String userID, String orderCode) {
+       try{
+            User user = this.iUserService.findByEmail(userID);
+            if(user != null) {
+                for(Order order: user.getOrders()) {
+                    if(order.getCode().equals(orderCode) && order.getUserID().equals(userID)) {
+                        return order;
+                    }
+                }
+            }
+       }catch (Exception ex) {
+           logger.error(ex.getMessage(), ex);
+       }
+       return null;
+    }
+
 }

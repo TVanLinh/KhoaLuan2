@@ -12,7 +12,12 @@
 <div class="container">
     <div class="row">
         <div class="clearfix"></div>
-        <div class="col-sm-12 col-xs-12 col-md-12"><h3>Danh dách đơn hàng</h3>
+        <div class="col-sm-12 col-xs-12 col-md-12"><h4>Danh dách đơn hàng</h4>
+            <c:if test="${requestScope.flag eq 1}">
+                <div class="alert alert-success">
+                   Đặt hàng thành công
+                </div>
+            </c:if>
             <table class="table table-bordered" id="dataTable">
                 <thead>
                     <tr>
@@ -26,7 +31,7 @@
                 <c:forEach items="${orders}" var="order" varStatus="status">
                     <tr>
                         <td>${status.index + 1}</td>
-                        <td>DH - ${order.code}</td>
+                        <td><a href="${pageContext.request.contextPath}/cart/order/${order.code}">DH - ${order.code}</a></td>
                         <td>${order.createDate}</td>
                         <td>
                             <c:if test="${order.status eq 1}">
