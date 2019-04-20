@@ -87,8 +87,14 @@
 <script type="text/javascript">
     var productID = [];
     var feeTransfer =  Number("${feeTransfer}");
+    var totalMoney = 0;
     <c:forEach items="${order.carts}" var="item">
-    productID.push("${item.product.code}");
+         productID.push("${item.product.code}");
+         var price = Number("${item.product.price}");
+         var discount = Number("${item.product.discount}");
+         var amount = Number("${item.amount}");
+         totalMoney += (price - price*discount/100) * amount;
+
     </c:forEach>
 
     $(document).ready(function (event) {
@@ -102,16 +108,8 @@
     });
 
     function total() {
-        var totalMoneyAll = 0;
-        for(var i = 0; i< productID.length; i++) {
-            var price = $("#"+productID[i] + "-price").val();
-            var amount = $("#"+productID[i] + "-amount").val();
-            var totalMoney = Number(price) * Number(amount);
-            totalMoneyAll += totalMoney;
-            $("#" + productID[i] + "-total").text(formatMoney(totalMoney) + "đ") ;
-        }
-        $('#totalMoneyAll').text(formatMoney(totalMoneyAll) + "đ");
-        $('#totalPay').text(formatMoney(totalMoneyAll + feeTransfer) + "đ");
+        $('#totalMoneyAll').text(formatMoney(totalMoney) + "đ");
+        $('#totalPay').text(formatMoney(totalMoney + feeTransfer) + "đ");
     }
 
 </script>
