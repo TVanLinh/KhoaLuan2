@@ -184,4 +184,14 @@ public class CartController extends BaseController {
         }
         return Constant.TEMPLATE_VIEW.ORDER_DETAIL;
     }
+
+    @RequestMapping(value = {"/cart/{orderCode}/print"}, method = RequestMethod.GET)
+    public  void printOrder(@PathVariable(value = "orderCode") String orderCode) {
+        try{
+//            Result result = this.iOrderService.printOrder(this.userCurrent().getEmail(), orderCode );
+            this.iOrderService.printOrder("linh12@gmail.com", orderCode );
+        }catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+        }
+    }
 }

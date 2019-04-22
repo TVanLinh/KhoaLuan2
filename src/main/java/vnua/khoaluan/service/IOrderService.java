@@ -8,4 +8,5 @@ public interface IOrderService {
     Result saveOrder(User userInfo, Order order);
     Result updateStatusOrder(String userId, String orderCode, int status);
     Order findOrderByOrderCode(String userID, String orderCode);
+    Result printOrder(String userName, String orderCode);
 }

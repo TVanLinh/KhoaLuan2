@@ -1,5 +1,10 @@
 package vnua.khoaluan.service.impl;
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -12,6 +17,8 @@ import vnua.khoaluan.entities.Order;
 import vnua.khoaluan.service.IOrderService;
 import vnua.khoaluan.service.IUserService;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -85,6 +92,116 @@ public class OrderServiceImpl implements IOrderService {
            logger.error(ex.getMessage(), ex);
        }
        return null;
+    }
+
+    public Result printOrder(String userName, String orderCode) {
+        Result result = new Result();
+        result.setStatus(Constant.STATUS.OK);
+        try{
+            User user = this.iUserService.findByEmail(userName);
+            Order order = null;
+            if(user != null) {
+                for(Order item: user.getOrders()) {
+                    if(item.getCode().equals(orderCode)) {
+                        order = item;
+                        break;
+                    }
+                }
+                if(order != null) {
+                    String dir = Constant.ROOT_CART.concat(orderCode);
+                    File file = new File(dir);
+                    file.mkdirs();
+                    FileUtils.cleanDirectory(file);
+                    DateFormat dateFormat = new SimpleDateFormat(Constant.DATE_FORMAT.ORDER_CODE_FORMAT);
+                    String fileName =  dir.concat(File.separator)
+                                      .concat(dateFormat.format(new Date()))
+                                      .concat(".pdf");
+                    Document document = new Document();
+                    PdfWriter.getInstance(document, new FileOutputStream(fileName));
+                    document.open();
+                    PdfPTable table;
+                    Paragraph paragraph = new Paragraph("Vu Thi Hoai Linh");
+                    paragraph.setIndentationLeft(5);
+                    paragraph.setAlignment(Element.ALIGN_LEFT);
+                    Font font = new Font();
+                    font.setSize(20);
+                    document.add(paragraph);
+                    paragraph = new Paragraph();
+                    paragraph.setSpacingBefore(10);
+                    paragraph.setIndentationLeft(100);
+                    document.add(paragraph);
+
+                    // In Thong tin hoa don
+                    table = new PdfPTable(2);
+//                    table.setWidths(new int[] {50, 50});
+                    table.setWidthPercentage(100);
+                    PdfPCell cell;
+                    // In dia chi
+                    font.setSize(10);
+                    cell = new PdfPCell(new Paragraph("Trau Quy Gia Lam", font));
+                    cell.setUseVariableBorders(true);
+                    cell.setBorderColor(BaseColor.WHITE);
+                    cell.setBorderWidth(0);
+                    cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+                    cell.setPadding(5);
+                    table.addCell(cell);
+
+                    // // In dia chi
+                    cell = new PdfPCell(new Paragraph(""));
+                    cell.setUseVariableBorders(true);
+                    cell.setBorderColor(BaseColor.WHITE);
+                    cell.setBorderWidth(0);
+                    cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+                    cell.setPadding(5);
+                    table.addCell(cell);
+
+
+                    cell = new PdfPCell(new Paragraph("Trau Quy Gia Lam Ha Noi", font));
+                    cell.setUseVariableBorders(true);
+                    cell.setBorderColor(BaseColor.WHITE);
+                    cell.setBorderWidth(0);
+                    cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+                    cell.setPadding(5);
+                    table.addCell(cell);
+
+                    cell = new PdfPCell(new Paragraph("INVOICE#" + orderCode, font));
+                    cell.setUseVariableBorders(true);
+                    cell.setBorderColorTop(BaseColor.WHITE);
+                    cell.setBorderColorBottom(BaseColor.WHITE);
+                    cell.setBorderWidth(0);
+                    cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                    cell.setPadding(5);
+                    table.addCell(cell);
+
+
+                    cell = new PdfPCell(new Paragraph("Phone - 01644952648", font));
+                    cell.setUseVariableBorders(true);
+                    cell.setBorderColor(BaseColor.WHITE);
+                    cell.setBorderWidth(0);
+                    cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+                    cell.setPadding(5);
+                    table.addCell(cell);
+
+                    cell = new PdfPCell(new Paragraph("DATE: " + order.getCreateDate(), font));
+                    cell.setUseVariableBorders(true);
+                    cell.setBorderColor(BaseColor.WHITE);
+                    cell.setBorderWidth(0);
+                    cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                    cell.setPadding(5);
+                    table.addCell(cell);
+
+
+                    ///==========================
+                    //=========================================
+                    document.add(table);
+                    document.close();
+                }
+            }
+       }catch (Exception ex) {
+           logger.error(ex.getMessage(), ex);
+           result.setStatus(Constant.STATUS.ERROR);
+       }
+        return  result;
     }
 
 }
