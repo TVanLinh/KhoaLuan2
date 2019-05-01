@@ -9,12 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <title>Khoa Luan</title>
-    <link rel="stylesheet" href="<c:url value="/resources/vendor/bootstrap/css/bootstrap.min.css"/>">
     <%--<link rel="stylesheet" type="text/css"--%>
           <%--href="<c:url value='/resources/css/stylesheet.min.css'/>" >--%>
     <link href="<c:url value="/resources/vendor/fonts/circular-std/style.css"/>" rel="stylesheet">
 
     <link rel="stylesheet" href="<c:url value="/resources/libs/css/style.css"/>">
+    <link rel="stylesheet" href="<c:url value="/resources/vendor/bootstrap/css/bootstrap.min.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/vendor/fonts/fontawesome/css/fontawesome-all.css"/>">
     <link rel="stylesheet" href="<c:url value="/resources/vendor/charts/chartist-bundle/chartist.css"/>"/>
     <link rel="stylesheet" href="<c:url value="/resources/vendor/charts/morris-bundle/morris.css"/>">
@@ -58,7 +58,7 @@
     <!-- ============================================================== -->
     <div class="dashboard-header">
         <nav class="navbar navbar-expand-lg bg-white fixed-top">
-            <a class="navbar-brand" href="index.html">Khoa Luan</a>
+            <a class="navbar-brand" href="#">Khoa Luan</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -117,10 +117,10 @@
                                         <a class="nav-link" href="${pageContext.request.contextPath}/admin/product">Danh sach san pham</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/user">Danh sach tai khoan</a>
+                                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/#">Danh sach tai khoan</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/post">Danh sach bai viet</a>
+                                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/#">Danh sach bai viet</a>
                                     </li>
                                 </ul>
                             </div>
@@ -132,10 +132,10 @@
                             <div id="submenu-2" class="collapse submenu" style="">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/cart">Danh sach don hang</a>
+                                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/orders">Danh sach don hang</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/report">Thong ke bao cao</a>
+                                        <a class="nav-link" href="${pageContext.request.contextPath}/admin/#">Thong ke bao cao</a>
                                     </li>
                                 </ul>
                             </div>

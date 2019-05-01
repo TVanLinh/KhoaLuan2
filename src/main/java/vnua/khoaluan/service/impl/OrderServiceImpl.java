@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import vnua.khoaluan.common.StringUtil;
+import vnua.khoaluan.entities.Product;
 import vnua.khoaluan.entities.User;
 import vnua.khoaluan.bean.Result;
 import vnua.khoaluan.common.Constant;
@@ -21,7 +23,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
 
 @Service
@@ -204,4 +206,98 @@ public class OrderServiceImpl implements IOrderService {
         return  result;
     }
 
+    public Result getOrders(String textSearch, String fromDate, String toDate, int status, int offset,int limit) {
+        Result result = new Result();
+        result.setStatus(Constant.STATUS.OK);
+        try{
+            List<User> users = this.iUserService.findALL();
+            List<Order> orders = new LinkedList<Order>();
+            for(User user: users) {
+                orders.addAll(user.getOrders());
+            }
+
+            // Sap xep order
+            Collections.sort(orders, new Comparator<Order>() {
+                public int compare(Order o1, Order o2) {
+                    return o1.getCreateDate().compareTo(o2.getCreateDate());
+                }
+            });
+
+            // Tim kiem order
+            List<Order> orderSearch = new LinkedList<Order>();
+            if(StringUtil.isEmptyWithTrim(textSearch)) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                if(StringUtil.isEmptyWithTrim(fromDate)) {
+                    fromDate =  dateFormat.format(new Date());
+                }
+
+                Calendar createDate = Calendar.getInstance();
+                createDate.setTime(dateFormat.parse(fromDate));
+
+                Calendar calToDate = Calendar.getInstance();
+
+                Calendar calendarOrder = Calendar.getInstance();
+                for(Order order: orders) {
+                    calendarOrder.setTime(dateFormat.parse(order.getCreateDate().substring(8).trim()));
+                    if(!StringUtil.isEmptyWithTrim(toDate)) {
+                        calToDate.setTime(dateFormat.parse(toDate));
+                        if((calendarOrder.after(createDate) || createDate.equals(calendarOrder) )
+                                && (calendarOrder.before(calToDate) || calendarOrder.equals(calToDate) )) {
+                            if(status == -1) {
+                                orderSearch.add(order);
+                            }else{
+                                if(order.getStatus() == status) {
+                                    orderSearch.add(order);
+                                }
+                            }
+                        }
+                    }else{
+                        if(createDate.after(calendarOrder) || createDate.equals(calendarOrder)) {
+                            if(status == -1) {
+                                orderSearch.add(order);
+                            }else{
+                                if(order.getStatus() == status) {
+                                    orderSearch.add(order);
+                                }
+                            }
+                        }
+                    }
+                }
+            }else{ // truong hop ma don hang khac null, tim kiem theo ma don hang
+                for(Order order: orders) {
+                    if((order.getCode().toLowerCase()).indexOf(textSearch.toLowerCase().trim()) != -1) {
+                        orderSearch.add(order);
+                    }
+                }
+            }
+
+            // sort
+            Collections.sort(orderSearch, new Comparator<Order>() {
+                public int compare(Order o1, Order o2) {
+                    return o1.getCode().compareTo(o2.getCode());
+                }
+            });
+
+            List<Order> orderResult;
+
+            if(offset == 0 && orderSearch.size() < offset + limit) {
+                limit = orderSearch.size();
+            }else if(offset > orderSearch.size()) {
+                offset = orderSearch.size() - 1;
+                limit = 0;
+            } else if(orderSearch.size() < offset + limit) {
+                limit = orderSearch.size() - offset;
+            }
+
+            result.setTotal(orderSearch.size());
+            orderResult = new ArrayList<Order>(orderSearch).subList(offset, offset + limit);
+            result.getOrders().addAll(orderResult);
+            result.setStatus(Constant.STATUS.OK);
+            return  result;
+        }catch (Exception ex) {
+            result.setStatus(Constant.STATUS.ERROR);
+            logger.error(ex.getMessage(), ex);
+        }
+        return result;
+    }
 }

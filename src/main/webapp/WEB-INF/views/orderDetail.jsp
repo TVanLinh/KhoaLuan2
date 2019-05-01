@@ -12,8 +12,14 @@
 <div class="container">
     <div class="row">
         <div class="clearfix"></div>
-        <div class="col-sm-12 col-xs-12 col-md-12"><h4>Chi tiết đơn hàng - DH - ${order.code}</h4>
-            <table class="table table-bordered" id="dataTable">
+        <div class="col-xs-8">
+            <h4>Chi tiết đơn hàng - DH - ${order.code}</h4>
+        </div>
+        <div class="col-xs-4">
+            <button class="btn btn-default" onclick="window.location = '${pageContext.request.contextPath}/cart/${order.code}/print'"><i class="fa fa-print"></i> In hóa đơn</button>
+        </div>
+        <div class="col-sm-12 col-xs-12 col-md-12">
+              <table class="table table-bordered" id="dataTable">
                 <thead>
                 <tr>
                     <td class="text-center"><strong>Ảnh</strong></td>

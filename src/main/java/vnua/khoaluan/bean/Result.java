@@ -1,5 +1,6 @@
 package vnua.khoaluan.bean;
 
+import vnua.khoaluan.entities.Order;
 import vnua.khoaluan.entities.Product;
 
 import java.util.*;
@@ -11,6 +12,7 @@ public class Result {
     private int total;
     public  List<Object> data;
     public  String idScroll;
+    public List<Order> orders;
 
     public  Set<Product> products;
 
@@ -90,5 +92,16 @@ public class Result {
 
     public void setCarts(Map<String, Cart> carts) {
         this.carts = carts;
+    }
+
+    public List<Order> getOrders() {
+        if(orders == null) {
+            orders =  new ArrayList<Order>();
+        }
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }

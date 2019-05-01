@@ -27,3 +27,9 @@
 .dataTables_empty {
     display: none !important;
 }
+.submenu {
+    background-color: transparent !important;
+}
+#dataTable_wrapper td {
+    vertical-align: middle !important;
+}

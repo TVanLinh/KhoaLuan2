@@ -15,13 +15,12 @@ import vnua.khoaluan.bean.Result;
 import vnua.khoaluan.common.Constant;
 import vnua.khoaluan.common.StringUtil;
 import vnua.khoaluan.common.Utils;
+import vnua.khoaluan.entities.Catalog;
 import vnua.khoaluan.entities.User;
 import vnua.khoaluan.form.UserForm;
 import vnua.khoaluan.service.IUserService;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 
 @Service
@@ -112,4 +111,13 @@ public class UserServiceImpl implements IUserService {
         return messageSource.getMessage(code, null, new Locale("vi"));
     }
 
+    public List<User> findALL() {
+        try {
+            List<User> users = mongoTemplate.findAll(User.class);
+            return users;
+        } catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+            return new ArrayList<User>();
+        }
+    }
 }

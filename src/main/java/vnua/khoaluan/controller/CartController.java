@@ -194,4 +194,68 @@ public class CartController extends BaseController {
             logger.error(ex.getMessage(), ex);
         }
     }
+
+    // Admin -----------------------------
+    @RequestMapping(value = {"/admin/orders"}, method = RequestMethod.GET)
+    public  String adminGetOrders(Model model, HttpSession session) {
+        try{
+            pargingInfo.setPageCurrent(1);
+            Result result = this.iOrderService.getOrders(null, null, null, -1,
+                    (pargingInfo.pageCurrent - 1) * pargingInfo.maxItemView, pargingInfo.maxItemView);
+            pargingInfo.setTotal(result.getTotal());
+            model.addAttribute("result", result);
+
+            //
+            session.setAttribute(Constant.SESSION_CODE.AD_PAGE_CURRENT, 1);
+            session.setAttribute(Constant.SESSION_CODE.AD_ORDER_STATUS, -1);
+            session.setAttribute(Constant.SESSION_CODE.AD_ORDER_TEXT_SEARCH, "");
+            session.setAttribute(Constant.SESSION_CODE.AD_ORDER_FROM_DATE, null);
+            session.setAttribute(Constant.SESSION_CODE.AD_ORDER_TO_DATE, null);
+        }catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+        }
+        return Constant.TEMPLATE_VIEW.ADMIN_LIST_ORDER;
+    }
+
+    @RequestMapping(value = {"/admin/orders/search"}, method = RequestMethod.GET)
+    public  String adminGetOrdersSearch(Model model,
+                                        HttpSession session,
+                                        @RequestParam(value = "orderCode", defaultValue = "", required = false) String orderCode,
+                                        @RequestParam(value = "fromDate", defaultValue = "", required = false) String fromDate,
+                                        @RequestParam(value = "toDate", defaultValue = "", required = false) String toDate,
+                                        @RequestParam(value = "status", defaultValue = "-1", required = false) int status,
+                                        @RequestParam(value = "redirect", defaultValue = "false", required = false) boolean redirect,
+                                        @RequestParam(value = "page", required =  false,
+                                                defaultValue = "1") int page) {
+        try{
+            if(redirect) {
+                orderCode = (String) session.getAttribute(Constant.SESSION_CODE.AD_ORDER_TEXT_SEARCH);
+                fromDate = (String) session.getAttribute(Constant.SESSION_CODE.AD_ORDER_FROM_DATE);
+                toDate = (String) session.getAttribute(Constant.SESSION_CODE.AD_ORDER_TO_DATE);
+                status = (Integer) session.getAttribute(Constant.SESSION_CODE.AD_ORDER_STATUS);
+//                page = (Integer) session.getAttribute(Constant.SESSION_CODE.AD_PAGE_CURRENT);
+            }
+            pargingInfo.setPageCurrent(page);
+
+            Result result = this.iOrderService.getOrders(orderCode, fromDate, toDate, status,
+                    (pargingInfo.pageCurrent - 1) * pargingInfo.maxItemView, pargingInfo.maxItemView);
+
+            pargingInfo.setTotal(result.getTotal());
+            model.addAttribute("result", result);
+            model.addAttribute("orderCode", orderCode);
+            model.addAttribute("fromDate", fromDate);
+            model.addAttribute("toDate", toDate);
+            model.addAttribute("status", status);
+
+            //
+            session.setAttribute(Constant.SESSION_CODE.AD_PAGE_CURRENT, pargingInfo.getPageCurrent());
+            session.setAttribute(Constant.SESSION_CODE.AD_ORDER_STATUS, status);
+            session.setAttribute(Constant.SESSION_CODE.AD_ORDER_TEXT_SEARCH, orderCode);
+            session.setAttribute(Constant.SESSION_CODE.AD_ORDER_FROM_DATE, fromDate);
+            session.setAttribute(Constant.SESSION_CODE.AD_ORDER_TO_DATE, toDate);
+        }catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+        }
+        return Constant.TEMPLATE_VIEW.ADMIN_LIST_ORDER;
+    }
 }

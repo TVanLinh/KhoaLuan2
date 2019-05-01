@@ -30,7 +30,7 @@
                 </c:if>
             </div>
            <form action="${pageContext.request.contextPath}/admin/product/search" method="get">
-               <div class="row">
+               <div class="row" style="margin-left: 5px">
                    <div class="col-xs-3 " style="margin-bottom: 15px; width: 300px; margin-right: 15px">
                        <select  id="catalogCode" class="form-control" name="catalogCode">
                            <c:forEach items="${catalogList}" var="item">
@@ -73,11 +73,11 @@
                             <td class="text-center"><img
                                 src="${pageContext.request.contextPath}/product/imageURL/${product.catalogCode}/${product.code}/small"
                                 alt="${product.name}" title="${product.name}" width="100"/></td>
-                            <td class="text-left"><a href="#">${product.code}</a></td>
-                            <td class="text-left"><a href="#">${product.name}</a></td>
-                            <td class="text-right"><a href="#">${product.price}</a></td>
-                            <td class="text-right"><a href="#">${product.amount}</a></td>
-                            <td class="text-right"><a href="#">${product.discount}</a></td>
+                            <td class="text-left"><a href="${pageContext.request.contextPath}/admin/product/update/${product.catalogCode}/${product.code}'">${product.code}</a></td>
+                            <td class="text-left"><a href="${pageContext.request.contextPath}/admin/product/update/${product.catalogCode}/${product.code}'">${product.name}</a></td>
+                            <td class="text-right"><span>${product.price}</span></td>
+                            <td class="text-right"><span>${product.amount}</span></td>
+                            <td class="text-right"><span>${product.discount}</span></td>
                             <td class="text-center">
                                 <button type="button" data-toggle="tooltip" title="Cập nhật" class="btn btn-success"
                                         onclick="window.location = '${pageContext.request.contextPath}/admin/product/update/${product.catalogCode}/${product.code}'">
