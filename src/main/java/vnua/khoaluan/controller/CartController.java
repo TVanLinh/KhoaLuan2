@@ -295,6 +295,7 @@ public class CartController extends BaseController {
             if(order == null) {
                 return "redirect:/admin/orders";
             }
+            model.addAttribute("userInfo", this.iUserService.findByEmail(order.getUserID()));
             model.addAttribute("order", order);
             model.addAttribute("flag", session.getAttribute(Constant.SESSION_CODE.AD_ORDER_FLAG));
             session.removeAttribute(Constant.SESSION_CODE.AD_ORDER_FLAG);

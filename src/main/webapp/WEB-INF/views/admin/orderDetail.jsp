@@ -8,6 +8,12 @@
     td {
         vertical-align: middle !important;
     }
+    .info {
+        border: 1px solid #ccccdc;
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+
 </style>
 <div class="dashboard-wrapper">
     <div class="dashboard-ecommerce">
@@ -17,6 +23,18 @@
                 <div class="clearfix"></div>
                 <div class="col-sm-12 text-center">
                     <h3>DH - ${order.code}</h3>
+                </div>
+                <div class="col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="info">
+                            <div class="row">
+                                <div class="col-sm-4" style="text-transform: capitalize">Họ tên: ${userInfo.fullName}</div>
+                                <div class="col-sm-4">Email: ${userInfo.email}</div>
+                                <div class="col-sm-4">Số điện thoại: ${userInfo.phone}</div>
+                                <div class="col-sm-12" style="margin-top: 10px">Địa chỉ: ${userInfo.address}</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-sm-6">
                       <form method="post">
