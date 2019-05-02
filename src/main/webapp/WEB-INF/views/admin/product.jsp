@@ -73,8 +73,8 @@
                             <td class="text-center"><img
                                 src="${pageContext.request.contextPath}/product/imageURL/${product.catalogCode}/${product.code}/small"
                                 alt="${product.name}" title="${product.name}" width="100"/></td>
-                            <td class="text-left"><a href="${pageContext.request.contextPath}/admin/product/update/${product.catalogCode}/${product.code}'">${product.code}</a></td>
-                            <td class="text-left"><a href="${pageContext.request.contextPath}/admin/product/update/${product.catalogCode}/${product.code}'">${product.name}</a></td>
+                            <td class="text-left"><a href="${pageContext.request.contextPath}/admin/product/update/${product.catalogCode}/${product.code}">${product.code}</a></td>
+                            <td class="text-left"><a href="${pageContext.request.contextPath}/admin/product/update/${product.catalogCode}/${product.code}">${product.name}</a></td>
                             <td class="text-right"><span>${product.price}</span></td>
                             <td class="text-right"><span>${product.amount}</span></td>
                             <td class="text-right"><span>${product.discount}</span></td>
