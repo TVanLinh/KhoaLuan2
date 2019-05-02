@@ -169,7 +169,8 @@ public class CartController extends BaseController {
     }
 
     @RequestMapping(value = {"/cart/order/{orderCode}"}, method = RequestMethod.GET)
-    public  String orderDetail(Model model, @PathVariable(value = "orderCode") String orderCode){
+    public  String orderDetail(Model model, @PathVariable(value = "orderCode") String orderCode,
+                               HttpSession session){
         try{
 
             Order order = this.iOrderService.findOrderByOrderCode(userCurrent().getEmail(),
@@ -179,10 +180,36 @@ public class CartController extends BaseController {
             }
             model.addAttribute("order",
                     order);
+            model.addAttribute("flag", session.getAttribute(Constant.SESSION_CODE.ORDER_FLAG));
+            session.removeAttribute(Constant.SESSION_CODE.ORDER_FLAG);
         }catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
         }
         return Constant.TEMPLATE_VIEW.ORDER_DETAIL;
+    }
+
+    @RequestMapping(value = {"/cart/order/{orderCode}/cancel"}, method = RequestMethod.GET)
+    public  String orderDetailProcess(Model model, @PathVariable(value = "orderCode") String orderCode,
+                                      HttpSession session){
+        try{
+
+            Order order = this.iOrderService.findOrderByOrderCode(userCurrent().getEmail(),
+                    orderCode);
+            if(order == null) {
+                return "redirect:/";
+            }
+
+            if(order.getStatus() > 1) {
+                session.setAttribute(Constant.SESSION_CODE.ORDER_FLAG, 1);
+            }else{
+                this.iOrderService.updateStatusOrder(order.getUserID(), order.getCode(), Constant.ORDER_STATUS.CANCEL);
+                session.setAttribute(Constant.SESSION_CODE.ORDER_FLAG, 2);
+            }
+
+        }catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+        }
+        return "redirect:/cart/order/" + orderCode;
     }
 
     @RequestMapping(value = {"/cart/{orderCode}/print"}, method = RequestMethod.GET)

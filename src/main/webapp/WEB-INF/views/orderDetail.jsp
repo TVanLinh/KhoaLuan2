@@ -10,14 +10,33 @@
     }
 </style>
 <div class="container">
-    <div class="row">
+    <div class="row" style="margin-top: 20px">
         <div class="clearfix"></div>
-        <div class="col-xs-8">
-            <h4>Chi tiết đơn hàng - DH - ${order.code}</h4>
+        <div class="col-sm-8">
+            <h4>DH - ${order.code}</h4>
         </div>
-        <div class="col-xs-4">
-            <button class="btn btn-default" onclick="window.location = '${pageContext.request.contextPath}/cart/${order.code}/print'"><i class="fa fa-print"></i> In hóa đơn</button>
+        <div class="col-sm-2 text-right">
+            <c:if test="${order.status eq 1}">
+                <button class="btn btn-warning" onclick="window.location = '${pageContext.request.contextPath}/cart/order/${order.code}/cancel'"><i class=""></i> Hủy đơn hàng</button>
+            </c:if>
         </div>
+        <div class="col-sm-2 text-right">
+            <button class="btn btn-success" onclick="window.location = '${pageContext.request.contextPath}/cart/${order.code}/print'"><i class="fa fa-print"></i> In hóa đơn</button>
+        </div>
+
+        <div class="col-sm-12">
+            <c:if test="${requestScope.flag eq 2}">
+                <div class="alert alert-success">
+                    Huỷ đơn hàng thành công
+                </div>
+            </c:if>
+            <c:if test="${requestScope.flag eq 1}">
+                <div class="alert alert-warning">
+                    Bạn không thể hủy đơn hàng này
+                </div>
+            </c:if>
+        </div>
+
         <div class="col-sm-12 col-xs-12 col-md-12">
               <table class="table table-bordered" id="dataTable">
                 <thead>
