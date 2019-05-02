@@ -8,6 +8,9 @@
     td{
         vertical-align: middle !important;
     }
+    .ui-dialog-titlebar-close {
+        display: none !important;
+    }
 </style>
 <div class="container">
     <div class="row" style="margin-top: 20px">
@@ -17,7 +20,7 @@
         </div>
         <div class="col-sm-2 text-right">
             <c:if test="${order.status eq 1}">
-                <button class="btn btn-warning" onclick="window.location = '${pageContext.request.contextPath}/cart/order/${order.code}/cancel'"><i class=""></i> Hủy đơn hàng</button>
+                <button class="btn btn-warning" onclick="cancelOrder()"><i class=""></i> Hủy đơn hàng</button>
             </c:if>
         </div>
         <div class="col-sm-2 text-right">
@@ -135,6 +138,29 @@
     function total() {
         $('#totalMoneyAll').text(formatMoney(totalMoney) + "đ");
         $('#totalPay').text(formatMoney(totalMoney + feeTransfer) + "đ");
+    }
+
+
+    function  cancelOrder() {
+        $( "#dialog" ).dialog({
+            title: "Bạn có muốn hủy đơn hàng không?",
+            minWidth: "350",
+            buttons: [
+                {
+                    text: "Không",
+                    click: function() {
+                        $( this ).dialog( "close" );
+                    }
+                },
+                {
+                    text: "Có",
+                    click: function() {
+                        $( this ).dialog( "close" );
+                        window.location = '${pageContext.request.contextPath}' +'/cart/order/' + "${order.code}" + "/cancel";
+                    }
+                }
+            ]
+        });
     }
 
 </script>

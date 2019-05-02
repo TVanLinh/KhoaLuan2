@@ -33,3 +33,6 @@
 #dataTable_wrapper td {
     vertical-align: middle !important;
 }
+.ui-dialog-titlebar-close {
+    display: none !important;
+}
