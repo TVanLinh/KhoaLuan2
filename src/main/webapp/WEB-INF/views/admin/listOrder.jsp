@@ -68,11 +68,11 @@
                 <div class="col-sm-2" style="margin-right: 15px">
                     <select name="status" id="" class="form-control" id="status">
                         <option value="-1">-----------------------------------</option>
-                        <option value="1" <c:if test="${status eq 1}"> selected</c:if>>Mới đặt hàng</option>
+                        <option value="1" <c:if test="${status eq 1}"> selected</c:if>>Đơn hàng đang chờ xử lý</option>
                         <option value="2"  <c:if test="${status eq 2}"> selected</c:if>> Đơn hàng đã tiếp nhận</option>
-                        <option value="3"  <c:if test="${status eq 3}"> selected</c:if>> Đang giao hàng</option>
-                        <option value="100"  <c:if test="${status eq 100}"> selected</c:if>>Đã kết thúc</option>
-                        <option value="-99"  <c:if test="${status eq -99}"> selected</c:if>> Đã hủy</option>
+                        <option value="3"  <c:if test="${status eq 3}"> selected</c:if>> Đơn hàng đang được giao tới khách hàng</option>
+                        <option value="100"  <c:if test="${status eq 100}"> selected</c:if>>Đơn hàng đã kết thúc</option>
+                        <option value="-99"  <c:if test="${status eq -99}"> selected</c:if>> Đơn hàng đã hủy</option>
                     </select>
                 </div>
 
@@ -95,17 +95,17 @@
                     <c:forEach items="${result.orders}" var="order" varStatus="status">
                         <tr>
                             <td>${status.index + 1}</td>
-                            <td><a href="${pageContext.request.contextPath}/cart/order/${order.code}">DH - ${order.code}</a></td>
+                            <td><a href="${pageContext.request.contextPath}/admin/orders/detail/${order.userID}/${order.code}">DH - ${order.code}</a></td>
                             <td>${order.createDate}</td>
                             <td>
                                 <c:if test="${order.status eq 1}">
-                                    Đang chờ xử lý
+                                    Đơn hàng đang chờ xử lý
                                 </c:if>
                                 <c:if test="${order.status eq 2}">
                                     Đơn hàng đã tiếp nhận
                                 </c:if>
                                 <c:if test="${order.status eq 3}">
-                                    Đơn hàng đang được vận chuyển
+                                   Đơn hàng đang được giao tới khách hàng
                                 </c:if>
                                 <c:if test="${order.status eq -99}">
                                     Đơn hàng đã hủy

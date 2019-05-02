@@ -40,6 +40,7 @@ public class Constant {
         public static final String ADMIN_ADD_CATALOG = "admin/addCatalog";
         public static final String ADMIN_EDIT_CATALOG = "admin/editCatalog";
         public static final String ADMIN_LIST_ORDER = "admin/listOrder";
+        public static final String ADMIN_ORDER_DETAIL = "admin/orderDetail";
         public static final String ACCESS_DENIED = "acessdenied";
 
     }
@@ -126,6 +127,7 @@ public class Constant {
         public  static  final  String AD_ORDER_FROM_DATE = "AD_ORDER_FROM_DATE";
         public  static  final  String AD_ORDER_TO_DATE = "AD_ORDER_TO_DATE";
         public  static  final  String AD_ORDER_STATUS = "AD_ORDER_STATUS";
+        public  static  final  String AD_ORDER_FLAG = "AD_ORDER_FLAG";
     }
 
     public  static class CONFIG {

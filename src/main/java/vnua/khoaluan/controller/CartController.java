@@ -258,4 +258,40 @@ public class CartController extends BaseController {
         }
         return Constant.TEMPLATE_VIEW.ADMIN_LIST_ORDER;
     }
+
+    @RequestMapping(value = {"/admin/orders/detail/{userID}/{orderCode}"}, method = RequestMethod.GET)
+    public String adminOrderDetail(Model model, @PathVariable(value = "userID") String userID,
+                                   @PathVariable(value = "orderCode") String orderCode,
+                                   HttpSession session) {
+        try{
+            Order order  = this.iOrderService.findOrderByOrderCode(userID, orderCode);
+            if(order == null) {
+                return "redirect:/admin/orders";
+            }
+            model.addAttribute("order", order);
+            model.addAttribute("flag", session.getAttribute(Constant.SESSION_CODE.AD_ORDER_FLAG));
+            session.removeAttribute(Constant.SESSION_CODE.AD_ORDER_FLAG);
+        }catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+        }
+        return Constant.TEMPLATE_VIEW.ADMIN_ORDER_DETAIL;
+    }
+
+    @RequestMapping(value = {"/admin/orders/detail/{userID}/{orderCode}"}, method = RequestMethod.POST)
+    public String adminOrderDetail(Model model, @PathVariable(value = "userID") String userID,
+                                   @PathVariable(value = "orderCode") String orderCode,
+                                   @RequestParam( value = "status", defaultValue = "0") int status,
+                                   HttpSession session) {
+        try{
+            Order order  = this.iOrderService.findOrderByOrderCode(userID, orderCode);
+            if(order == null) {
+                return "redirect:/admin/orders";
+            }
+            this.iOrderService.updateStatusOrder(userID, orderCode, status);
+            session.setAttribute(Constant.SESSION_CODE.AD_ORDER_FLAG, Constant.FLAG_CODE.UPDATE);
+        }catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+        }
+        return "redirect:/admin/orders/detail/"+ userID + "/" + orderCode;
+    }
 }

@@ -2,7 +2,7 @@ package vnua.khoaluan.common;
 
 public class PargingInfo {
     public  int maxPage = 10;
-    public  int maxItemView = 12;
+    public  int maxItemView = 2;
     public  int total = 10;
     public  int pageCurrent  = 1;
 

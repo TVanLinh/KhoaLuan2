@@ -39,6 +39,7 @@
     <script type="text/javascript" src="<c:url value="/resources/vendor/datatables/datatables.min.js"/>"></script>
     <script src="<c:url value="/resources/libs/js/main-js.js"/>"></script>
     <script src="<c:url value="/resources/js/parging.js"/>"></script>
+    <script src="<c:url value="/resources/js/common.js"/>"></script>
     <script type="text/javascript">
         var pargigInfo = {};
         pargigInfo.maxPage = ${pagingData.maxPage};

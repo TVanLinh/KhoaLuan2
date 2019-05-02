@@ -233,12 +233,18 @@ public class OrderServiceImpl implements IOrderService {
 
                 Calendar createDate = Calendar.getInstance();
                 createDate.setTime(dateFormat.parse(fromDate));
+                createDate.set(Calendar.HOUR, 0);
+                createDate.set(Calendar.MINUTE, 0);
+                createDate.set(Calendar.SECOND, 0);
 
                 Calendar calToDate = Calendar.getInstance();
 
                 Calendar calendarOrder = Calendar.getInstance();
                 for(Order order: orders) {
                     calendarOrder.setTime(dateFormat.parse(order.getCreateDate().substring(8).trim()));
+                    calendarOrder.set(Calendar.HOUR, 0);
+                    calendarOrder.set(Calendar.MINUTE, 0);
+                    calendarOrder.set(Calendar.SECOND, 0);
                     if(!StringUtil.isEmptyWithTrim(toDate)) {
                         calToDate.setTime(dateFormat.parse(toDate));
                         if((calendarOrder.after(createDate) || createDate.equals(calendarOrder) )
