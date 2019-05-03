@@ -96,7 +96,7 @@
                                                                               class="btn btn-default pull-left button_shopping">Tiếp
                             tục mua hàng</a></div>
                         <div class="col-sm-6 col-xs-6 col_button_checkout">
-                            <c:if test="${user.orders.size() != 0}" >
+                            <c:if test="${user != null && user.orders.size() != 0}" >
                                 <button
                                         onclick="window.location = '${pageContext.request.contextPath}/cart/order' "
                                         class="btn  btn-warning" style="right: -110px;
