@@ -3,6 +3,7 @@ package vnua.khoaluan.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import vnua.khoaluan.bean.Cart;
 import vnua.khoaluan.bean.Result;
@@ -14,7 +15,11 @@ import vnua.khoaluan.entities.Product;
 import vnua.khoaluan.form.CartForm;
 import vnua.khoaluan.service.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.*;
 
 @Controller
@@ -39,7 +44,7 @@ public class CartController extends BaseController {
     public  String initFeeTransfer(){
         String feeTransfer = this.iConfigService.getConfigByKey(Constant.CONFIG.FEE_TRANSFER);
         if(feeTransfer == null || StringUtil.isEmptyWithTrim(feeTransfer)) {
-            feeTransfer = "35000";
+            feeTransfer = Constant.FEE_TRANSFER_DEFAULT + "";
         }
         return feeTransfer;
     }
@@ -213,10 +218,22 @@ public class CartController extends BaseController {
     }
 
     @RequestMapping(value = {"/cart/{orderCode}/print"}, method = RequestMethod.GET)
-    public  void printOrder(@PathVariable(value = "orderCode") String orderCode) {
+    public  void printOrder(@PathVariable(value = "orderCode") String orderCode,
+                            HttpServletResponse response) {
         try{
-//            Result result = this.iOrderService.printOrder(this.userCurrent().getEmail(), orderCode );
-            this.iOrderService.printOrder("linh12@gmail.com", orderCode );
+            Result result = this.iOrderService.printOrder(this.userCurrent().getEmail(), orderCode );
+//            Result result = this.iOrderService.printOrder("linh12@gmail.com", orderCode );
+
+            InputStream is = new FileInputStream(result.getFileName());
+
+            response.setContentType("application/pdf");
+            response.setHeader("Content-Disposition", String.format("inline; filename=\"" + result.getFileName() + "\""));
+
+            OutputStream outputStream;
+
+            outputStream = response.getOutputStream();
+            FileCopyUtils.copy(is, outputStream);
+
         }catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
         }

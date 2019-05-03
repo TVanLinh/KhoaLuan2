@@ -153,4 +153,6 @@ public class Constant {
         public  static  final int END = 100;
     }
 
+    public static  long FEE_TRANSFER_DEFAULT = 35000;
+
 }

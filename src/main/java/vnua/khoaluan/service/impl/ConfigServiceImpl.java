@@ -28,6 +28,9 @@ public class ConfigServiceImpl extends ServiceCommon implements IConfigService {
             Query query = new Query();
             query.addCriteria(Criteria.where("key").is(key));
             List<Config> configs = mongoTemplate.find(query, Config.class);
+            if(configs.size() > 0) {
+                return configs.get(0).getValue();
+            }
         } catch (Exception ex) {
             logger.error(ex.getMessage());
         }

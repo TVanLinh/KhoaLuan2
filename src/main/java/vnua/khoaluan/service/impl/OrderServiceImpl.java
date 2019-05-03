@@ -1,27 +1,31 @@
 package vnua.khoaluan.service.impl;
 
+import com.itextpdf.layout.element.Cell;
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import vnua.khoaluan.bean.Cart;
 import vnua.khoaluan.common.StringUtil;
 import vnua.khoaluan.entities.Product;
 import vnua.khoaluan.entities.User;
 import vnua.khoaluan.bean.Result;
 import vnua.khoaluan.common.Constant;
 import vnua.khoaluan.entities.Order;
+import vnua.khoaluan.service.IConfigService;
 import vnua.khoaluan.service.IOrderService;
 import vnua.khoaluan.service.IUserService;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
@@ -36,6 +40,9 @@ public class OrderServiceImpl implements IOrderService {
 
     @Autowired
     private IUserService iUserService;
+
+    @Autowired
+    private IConfigService iConfigService;
 
     DateFormat dateFormat = new SimpleDateFormat(Constant.DATE_FORMAT.ORDER_FORMAT);
 
@@ -116,88 +123,129 @@ public class OrderServiceImpl implements IOrderService {
                     FileUtils.cleanDirectory(file);
                     DateFormat dateFormat = new SimpleDateFormat(Constant.DATE_FORMAT.ORDER_CODE_FORMAT);
                     String fileName =  dir.concat(File.separator)
-                                      .concat(dateFormat.format(new Date()))
+                                      .concat(orderCode)
                                       .concat(".pdf");
+                    result.setFileName(fileName);
                     Document document = new Document();
-                    PdfWriter.getInstance(document, new FileOutputStream(fileName));
+                    PdfWriter priPdfWriter = PdfWriter.getInstance(document, new FileOutputStream(fileName));
                     document.open();
+                    Paragraph paragraph;
+                    BaseFont courier = BaseFont.createFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, BaseFont.EMBEDDED);
                     PdfPTable table;
-                    Paragraph paragraph = new Paragraph("Vu Thi Hoai Linh");
-                    paragraph.setIndentationLeft(5);
-                    paragraph.setAlignment(Element.ALIGN_LEFT);
                     Font font = new Font();
                     font.setSize(20);
-                    document.add(paragraph);
-                    paragraph = new Paragraph();
-                    paragraph.setSpacingBefore(10);
-                    paragraph.setIndentationLeft(100);
-                    document.add(paragraph);
-
                     // In Thong tin hoa don
+
                     table = new PdfPTable(2);
 //                    table.setWidths(new int[] {50, 50});
                     table.setWidthPercentage(100);
                     PdfPCell cell;
+                    table.addCell(emptyCell(null));
+
+
+                    font = new Font();
+                    font.setSize(15);
+                    font.setStyle(Font.BOLD);
+                    cell = emptyCell(new Paragraph("INVOICE - " + orderCode, font));
+                    cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                    table.addCell(cell);
+                    // Header
+                    //------
+
+                    table.addCell(emptyCell(null));
+                    table.addCell(emptyCell(null));
+                    table.addCell(emptyCell(null));
+                    table.addCell(emptyCell(null));
+                    //
+                    font = new Font(courier, 13, Font.BOLD);
+                    cell = this.emptyCell(new Paragraph("From: ", font));
+                    cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+                    table.addCell(cell);
+
+                    cell = this.emptyCell(new Paragraph("To: ", font));
+                    cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+                    table.addCell(cell);
+
                     // In dia chi
-                    font.setSize(10);
-                    cell = new PdfPCell(new Paragraph("Trau Quy Gia Lam", font));
-                    cell.setUseVariableBorders(true);
-                    cell.setBorderColor(BaseColor.WHITE);
-                    cell.setBorderWidth(0);
+                    font = new Font(courier, 10, Font.NORMAL);
+                    StringBuilder addrFrom = new StringBuilder("");
+                    addrFrom.append("Vũ Thị Hoài Linh\n\n");
+                    addrFrom.append("Học Viện Nông Nghiệp Việt Nam \n\n");
+                    addrFrom.append("0352923968");
+                    paragraph = new Paragraph(addrFrom.toString(), font);
+                    paragraph.setSpacingBefore(50);
+                    paragraph.setSpacingAfter(50);
+                    cell =  emptyCell(paragraph);
                     cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-                    cell.setPadding(5);
                     table.addCell(cell);
 
-                    // // In dia chi
-                    cell = new PdfPCell(new Paragraph(""));
-                    cell.setUseVariableBorders(true);
-                    cell.setBorderColor(BaseColor.WHITE);
-                    cell.setBorderWidth(0);
+                    StringBuilder addrTo = new StringBuilder("");
+                    addrTo.append(user.getFullName() + "\n\n");
+                    addrTo.append(user.getAddress() + "\n\n");
+                    addrTo.append(user.getPhone());
+                    paragraph = new Paragraph(addrTo.toString(), font);
+                    paragraph.setSpacingBefore(50);
+                    paragraph.setSpacingAfter(50);
+                    cell =  emptyCell(paragraph);
                     cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-                    cell.setPadding(5);
+
                     table.addCell(cell);
-
-
-                    cell = new PdfPCell(new Paragraph("Trau Quy Gia Lam Ha Noi", font));
-                    cell.setUseVariableBorders(true);
-                    cell.setBorderColor(BaseColor.WHITE);
-                    cell.setBorderWidth(0);
-                    cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-                    cell.setPadding(5);
-                    table.addCell(cell);
-
-                    cell = new PdfPCell(new Paragraph("INVOICE#" + orderCode, font));
-                    cell.setUseVariableBorders(true);
-                    cell.setBorderColorTop(BaseColor.WHITE);
-                    cell.setBorderColorBottom(BaseColor.WHITE);
-                    cell.setBorderWidth(0);
-                    cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-                    cell.setPadding(5);
-                    table.addCell(cell);
-
-
-                    cell = new PdfPCell(new Paragraph("Phone - 01644952648", font));
-                    cell.setUseVariableBorders(true);
-                    cell.setBorderColor(BaseColor.WHITE);
-                    cell.setBorderWidth(0);
-                    cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-                    cell.setPadding(5);
-                    table.addCell(cell);
-
-                    cell = new PdfPCell(new Paragraph("DATE: " + order.getCreateDate(), font));
-                    cell.setUseVariableBorders(true);
-                    cell.setBorderColor(BaseColor.WHITE);
-                    cell.setBorderWidth(0);
-                    cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-                    cell.setPadding(5);
-                    table.addCell(cell);
-
+                    document.add(table);
 
                     ///==========================
                     //=========================================
-                    document.add(table);
+                    //IProduduct
+                    PdfPTable tableProduct = new PdfPTable(4);
+                    tableProduct.setWidthPercentage(100);
+                    tableProduct.setSpacingBefore(30);
+                    font = new Font();
+                    font.setSize(12);
+                    font.setStyle(Font.BOLD);
+                    font.setColor(BaseColor.WHITE);
+                    BaseColor baseColor  = new BaseColor(59, 163, 219);
+                    PdfPCell headCell = this.emptyCellProduct(new Paragraph("Name", font), 1);
+                    headCell.setBackgroundColor(baseColor);
+                    tableProduct.addCell(headCell);
+
+                    headCell = this.emptyCellProduct(new Paragraph("Price(VND)", font), 2);
+                    headCell.setBackgroundColor(baseColor);
+                    tableProduct.addCell(headCell);
+
+                    headCell = this.emptyCellProduct(new Paragraph("Amount", font), 3);
+                    headCell.setBackgroundColor(baseColor);
+                    tableProduct.addCell(headCell);
+
+//                    headCell = this.emptyCellProduct(new Paragraph("Subtotal", font), 4);
+//                    headCell.setBackgroundColor(baseColor);
+//                    tableProduct.addCell(headCell);
+
+                    headCell = this.emptyCellProduct(new Paragraph("Total(VND)", font), 5);
+                    headCell.setBackgroundColor(baseColor);
+                    tableProduct.addCell(headCell);
+
+                    long price = 0;
+                    for(Cart cart: order.getCarts()) {
+                        price += this.addRows(tableProduct, cart);
+                    }
+
+                    String pattern = "###,###.###";
+                    DecimalFormat decimalFormat = new DecimalFormat(pattern);
+                    addRowsFooterCart(tableProduct,"Subtotal", (decimalFormat.format(price)));
+                    Long taxShip = Long.getLong((this.iConfigService.getConfigByKey(Constant.CONFIG.FEE_TRANSFER)));
+                    if(taxShip == null) {
+                        taxShip = Constant.FEE_TRANSFER_DEFAULT;
+                    }
+
+                    addRowsFooterCart(tableProduct, "Shipping", decimalFormat.format(taxShip.longValue() ));
+
+                    addRowsFooterCart(tableProduct, "Total due", decimalFormat.format(taxShip.longValue() + price));
+
+                    document.add(tableProduct);
+                    onEndPage(priPdfWriter, document);
+
                     document.close();
                 }
+
             }
        }catch (Exception ex) {
            logger.error(ex.getMessage(), ex);
@@ -305,5 +353,102 @@ public class OrderServiceImpl implements IOrderService {
             logger.error(ex.getMessage(), ex);
         }
         return result;
+    }
+
+    private PdfPCell emptyCell(Paragraph paragraph) {
+        PdfPCell cell;
+        if(paragraph != null) {
+            cell =new PdfPCell(paragraph);
+        } else{
+            cell =new PdfPCell();
+        }
+        cell.setUseVariableBorders(true);
+        cell.setBorderColorTop(BaseColor.WHITE);
+        cell.setBorderColorBottom(BaseColor.WHITE);
+        cell.setBorderWidth(0);
+        cell.setPadding(5);
+       return  cell;
+    }
+
+    private PdfPCell emptyCellProduct(Paragraph paragraph, int index) {
+        PdfPCell cell = new PdfPCell(paragraph);
+        cell.setUseVariableBorders(true);
+        if(index >= 2) {
+            cell.setBorderWidthLeft(0);
+        }
+        cell.setBorderColorTop(BaseColor.BLACK);
+        cell.setBorderColorBottom(BaseColor.BLACK);
+        cell.setBorderWidth(1);
+        cell.setPadding(5);
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        return  cell;
+    }
+
+    private long addRows(PdfPTable table, Cart cart) throws IOException, DocumentException {
+        String pattern = "###,###.###";
+        DecimalFormat decimalFormat = new DecimalFormat(pattern);
+        BaseFont courier = BaseFont.createFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, BaseFont.EMBEDDED);
+        Font font = new Font(courier, 10);
+        // Name
+        Paragraph paragraph = new Paragraph(cart.getProduct().getName(), font);
+        font.setColor(BaseColor.BLACK);
+        paragraph.setFont(font);
+        PdfPCell pdfPCell = emptyCellProduct(paragraph, 1);
+        pdfPCell.setBorderColorTop(BaseColor.WHITE);
+        pdfPCell.setBorderWidthTop(0);
+        table.addCell(pdfPCell);
+
+        long price = cart.getProduct().getPrice() - (cart.getProduct().getPrice()* cart.getProduct().getDiscount()/100);
+
+        paragraph = new Paragraph(decimalFormat.format(price), font);
+        pdfPCell = emptyCellProduct(paragraph, 2);
+        pdfPCell.setBorderColorTop(BaseColor.WHITE);
+        pdfPCell.setBorderWidthTop(0);
+        pdfPCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        table.addCell(pdfPCell);
+
+        paragraph = new Paragraph(cart.getAmount() + "", font);
+        pdfPCell = emptyCellProduct(paragraph, 3);
+        pdfPCell.setBorderColorTop(BaseColor.WHITE);
+        pdfPCell.setBorderWidthTop(0);
+        pdfPCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        table.addCell(pdfPCell);
+
+        paragraph = new Paragraph(decimalFormat.format(cart.getAmount() * price), font);
+        pdfPCell = emptyCellProduct(paragraph, 4);
+        pdfPCell.setBorderColorTop(BaseColor.WHITE);
+        pdfPCell.setBorderWidthTop(0);
+        pdfPCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        table.addCell(pdfPCell);
+        return cart.getAmount() * price;
+    }
+
+    private void addRowsFooterCart(PdfPTable tableProduct,String title,  String text) throws IOException, DocumentException {
+        BaseFont courier = BaseFont.createFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, BaseFont.EMBEDDED);
+        Font font  = new Font(courier, 10 , Font.BOLD);
+        font.setSize(10);
+        font.setStyle(Font.BOLD);
+        font.setColor(BaseColor.BLACK);
+        Paragraph   paragraph = new Paragraph(title, font);
+        PdfPCell cell1 = this.emptyCellProduct(null, 1);
+        cell1.setBorderColor(BaseColor.WHITE);
+        cell1.setBorderWidth(0);
+        cell1.setBorderColorTop(BaseColor.WHITE);
+        cell1.setBorderColorBottom(BaseColor.WHITE);
+        tableProduct.addCell(cell1);
+        tableProduct.addCell(cell1);
+        cell1 = this.emptyCellProduct(paragraph, 1);
+        cell1.setBorderColorTop(BaseColor.WHITE);
+        cell1.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        tableProduct.addCell(cell1);
+        cell1 = this.emptyCellProduct(new Paragraph(text, font), 4);
+        cell1.setBorderColorTop(BaseColor.WHITE);
+        cell1.setHorizontalAlignment(Element.ALIGN_RIGHT);
+        tableProduct.addCell(cell1);
+    }
+
+    public void onEndPage(PdfWriter writer, Document document) {
+        ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("http://localhost:8080/DoAn"), 110, 30, 0);
+        ColumnText.showTextAligned(writer.getDirectContent(), Element.ALIGN_CENTER, new Phrase("page - " + document.getPageNumber()), 550, 30, 0);
     }
 }

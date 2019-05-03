@@ -24,7 +24,7 @@
             </c:if>
         </div>
         <div class="col-sm-2 text-right">
-            <button class="btn btn-success" onclick="window.location = '${pageContext.request.contextPath}/cart/${order.code}/print'"><i class="fa fa-print"></i> In hóa đơn</button>
+            <button class="btn btn-success" onclick="window.open('${pageContext.request.contextPath}/cart/${order.code}/print', '_blank')"><i class="fa fa-print"></i> In hóa đơn</button>
         </div>
 
         <div class="col-sm-12">

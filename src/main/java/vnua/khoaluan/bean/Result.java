@@ -18,6 +18,8 @@ public class Result {
 
     public  Map<String, Cart> carts;
 
+    private  String fileName;
+
     public int getStatus() {
         return status;
     }
@@ -103,5 +105,13 @@ public class Result {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }
