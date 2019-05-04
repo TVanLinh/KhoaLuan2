@@ -76,7 +76,7 @@ public class CartServiceImpl extends ServiceCommon implements ICartService {
             if(carts == null) {
                 carts = new TreeMap<String, Cart>();
             }
-            // TODO: validate
+            // TODO: validate 
             if(cart.getProduct() != null) {
                 if(carts.containsKey(cart.getProduct().getCode())) {
                     carts.get(cart.getProduct().getCode()).setAmount(cart.getAmount());
