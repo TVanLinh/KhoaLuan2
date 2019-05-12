@@ -440,7 +440,7 @@
                 </div>
             </section>
             <%--infomation--%>
-            <jsp:include page="template/infomation.jsp"/>
+<%--             <jsp:include page="template/infomation.jsp"/> --%>
             <%--feeback--%>
             <%--<jsp:include page="template/feedback.jsp"/>--%>
             <%--partner--%>
