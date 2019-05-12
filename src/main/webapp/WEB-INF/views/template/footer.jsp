@@ -61,9 +61,9 @@
                 <div class="container">
                     <div class="inner clearfix">
                         <div class="row">
-                            <div class="col-md-6 text-center text-lg-left"><span>© Copyright 2019 Fresh Food. Thiết kế bởi <a
+                            <div class="col-md-6 text-center text-lg-left"><span>© Copyright 2019 VTHLINH. Thiết kế bởi <a
                                     target="_blank"
-                                    href="https://www.zozo.vn/?utm_source=ggffg.myzozo.net&amp;utm_medium=referral&amp;utm_campaign=copyrightwebdesign&amp;utm_term=footerurl&amp;utm_content=footer">Zozo</a></span>
+                                    href="#">Vũ Thị Hoài Linh</a></span>
                             </div>
                             <div class="col-md-6 text-center text-lg-right hidden-xs">
                                 <ul class="list-menu-footer"></ul>
